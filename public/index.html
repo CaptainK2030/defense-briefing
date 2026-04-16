@@ -50,12 +50,16 @@ main { max-width:960px; margin:0 auto; padding:3rem 2rem 6rem; }
 .error-box { padding:1.25rem 1.5rem; background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.2); border-radius:10px; color:var(--red); font-family:var(--mono); font-size:14px; line-height:1.7; }
 .cards { display:flex; flex-direction:column; gap:2.5rem; }
 .card { background:var(--bg2); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
-.card-head { padding:1.1rem 1.75rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:var(--bg3); }
+.card-head { padding:1.1rem 1.75rem; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; background:var(--bg3); }
+.card-head-left { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
 .card-num { font-family:var(--mono); font-size:12px; letter-spacing:0.1em; color:var(--text3); }
 .tags { display:flex; gap:7px; flex-wrap:wrap; }
 .tag { font-family:var(--mono); font-size:12px; padding:3px 10px; border-radius:5px; border:1px solid; }
 .tag-type   { border-color:rgba(91,159,255,0.35); color:var(--accent); background:rgba(91,159,255,0.08); }
 .tag-domain { border-color:rgba(74,222,128,0.35); color:var(--green);  background:rgba(74,222,128,0.08); }
+.copy-btn { font-family:var(--mono); font-size:12px; padding:6px 14px; border-radius:7px; border:1px solid var(--border2); background:transparent; color:var(--text3); cursor:pointer; transition:all 0.15s; display:flex; align-items:center; gap:5px; white-space:nowrap; }
+.copy-btn:hover { border-color:var(--accent); color:var(--accent); background:var(--accent2); }
+.copy-btn.copied { border-color:var(--green); color:var(--green); background:rgba(74,222,128,0.08); }
 .card-title { font-size:20px; font-weight:700; color:var(--text); line-height:1.4; padding:1.5rem 1.75rem 0; }
 .card-body { padding:0.5rem 1.75rem 1.75rem; }
 .section-block { margin-top:1.75rem; }
@@ -68,12 +72,15 @@ main { max-width:960px; margin:0 auto; padding:3rem 2rem 6rem; }
 .section-text p { margin-bottom:0.85rem; }
 .section-text p:last-child { margin-bottom:0; }
 .num-marker { color:var(--accent); font-weight:700; }
-.card-footer { border-top:1px solid var(--border); padding:1rem 1.75rem; background:var(--bg3); }
-.source-label { font-family:var(--mono); font-size:11px; letter-spacing:0.1em; color:var(--text3); margin-bottom:6px; }
-.source-text { font-size:14px; color:var(--text3); line-height:1.7; }
-.source-text a { color:var(--accent); text-decoration:none; }
-.source-text a:hover { text-decoration:underline; }
-.source-text a::before { content:"↗ "; }
+.cite { font-size:13px; color:var(--text3); font-family:var(--mono); font-style:italic; }
+.card-footer { border-top:1px solid var(--border); padding:1.1rem 1.75rem; background:var(--bg3); }
+.source-label { font-family:var(--mono); font-size:11px; letter-spacing:0.1em; color:var(--text3); margin-bottom:10px; }
+.source-list { display:flex; flex-direction:column; gap:7px; }
+.source-item { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:var(--text3); line-height:1.6; }
+.source-dot { width:5px; height:5px; border-radius:50%; background:var(--text3); flex-shrink:0; margin-top:8px; }
+.source-item-text { flex:1; }
+.source-search-btn { flex-shrink:0; font-family:var(--mono); font-size:11px; padding:3px 9px; border-radius:4px; border:1px solid rgba(91,159,255,0.3); color:var(--accent); background:rgba(91,159,255,0.06); text-decoration:none; white-space:nowrap; transition:all 0.12s; }
+.source-search-btn:hover { background:rgba(91,159,255,0.15); }
 @media (max-width:680px) {
   html { font-size:16px; }
   header { padding:0 1rem; }
@@ -120,7 +127,7 @@ main { max-width:960px; margin:0 auto; padding:3rem 2rem 6rem; }
   </div>
   <div class="status" id="status">분야를 선택하고 브리핑 생성 버튼을 누르세요.</div>
   <div id="output">
-    <div class="empty">10대 전략기술 분야 중 하나를 선택하고 브리핑 생성을 눌러주세요<br><span style="font-size:14px;color:var(--text3)">핵심 내용 · 전략적 시사점 · 선진국 R&D · 국내 기획 방향 · 출처 수록</span></div>
+    <div class="empty">10대 전략기술 분야 중 하나를 선택하고 브리핑 생성을 눌러주세요<br><span style="font-size:14px;color:var(--text3)">핵심 내용 · 전략적 시사점 · 선진국 R&D · 국내 기획 방향 · 인용 근거 · 참고 자료 수록</span></div>
   </div>
 </main>
 
@@ -140,17 +147,15 @@ document.querySelectorAll('.t-btn').forEach(b => {
 
 function setStatus(msg, loading=false) {
   document.getElementById('status').innerHTML = loading
-    ? `<span class="spinner"></span><span style="color:#5b9fff">${msg}</span>`
-    : `<span>${msg}</span>`;
+    ? '<span class="spinner"></span><span style="color:#5b9fff">' + msg + '</span>'
+    : '<span>' + msg + '</span>';
 }
 
-// ===자료N=== 기준으로 블록 분리
 function splitBlocks(text) {
   const parts = text.split(/={2,}자료\s*\d+={2,}/i);
   return parts.filter(p => p.trim().length > 30).slice(0, 2);
 }
 
-// [태그] 기준으로 섹션 추출
 function parseBlock(block) {
   const result = {};
   const tagRe = /\[([^\]]+)\]\s*\n?([\s\S]+?)(?=\n\s*\[[^\]]+\]|$)/g;
@@ -162,61 +167,101 @@ function parseBlock(block) {
   return result;
 }
 
-// 텍스트를 HTML로 — ①②③ 강조, 줄바꿈 처리
 function toHtml(text) {
   if (!text) return '';
   const esc = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   return esc
     .replace(/(①|②|③|④)/g, '<span class="num-marker">$1</span>')
+    .replace(/\(([^)]{3,50}(?:년|보고서|연구원|연구소|부|청|원|대|군|부대|사|위원회|연합|기관|DARPA|RUSI|CSIS|RAND|NATO|DoD|IDF|DSTL|ADD)[^)]*)\)/g, '<span class="cite">($1)</span>')
     .replace(/\n{2,}/g, '</p><p>')
     .replace(/\n/g, ' ')
     .replace(/^/, '<p>').replace(/$/, '</p>');
 }
 
-// URL 추출 및 링크 렌더링
 function renderSource(src) {
   if (!src) return '';
-  const urls = (src.match(/https?:\/\/[^\s,，]+/g) || []);
-  const cleanText = src.replace(/https?:\/\/[^\s,，]+/g,'').replace(/\s{2,}/g,' ').trim();
-  const esc = cleanText.replace(/&/g,'&amp;').replace(/</g,'&lt;');
-  const links = urls.map(u => {
-    const domain = u.replace(/^https?:\/\//,'').split('/')[0];
-    return `<a href="${u}" target="_blank" rel="noopener">${domain}</a>`;
-  }).join('  ');
-  return `<div class="card-footer">
-    <div class="source-label">출처</div>
-    <div class="source-text">${esc}${links ? '<br>'+links : ''}</div>
-  </div>`;
+  const lines = src.split(/\n/)
+    .map(l => l.replace(/^\s*\d+[.)]\s*/, '').trim())
+    .filter(l => l.length > 5);
+  if (!lines.length) return '';
+  const items = lines.map(line => {
+    const q = encodeURIComponent(line.replace(/,/g,' '));
+    const searchUrl = 'https://www.google.com/search?q=' + q;
+    const esc = line.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+    return '<div class="source-item"><span class="source-dot"></span><span class="source-item-text">' + esc + '</span><a class="source-search-btn" href="' + searchUrl + '" target="_blank" rel="noopener">검색 ↗</a></div>';
+  }).join('');
+  return '<div class="card-footer"><div class="source-label">참고 자료</div><div class="source-list">' + items + '</div></div>';
+}
+
+function copyCard(cardId) {
+  const card = document.getElementById(cardId);
+  const btn = card.querySelector('.copy-btn');
+  const lines = [];
+  const title = card.querySelector('.card-title');
+  const tags = card.querySelectorAll('.tag');
+  const sections = card.querySelectorAll('.section-block');
+  const footer = card.querySelector('.card-footer');
+  if (title) { lines.push(title.textContent.trim()); lines.push(''); }
+  tags.forEach(t => lines.push(t.textContent.trim()));
+  if (tags.length) lines.push('');
+  sections.forEach(sec => {
+    const lbl = sec.querySelector('.section-label');
+    const txt = sec.querySelector('.section-text');
+    if (lbl) lines.push('[ ' + lbl.textContent.trim() + ' ]');
+    if (txt) { lines.push(txt.textContent.trim()); lines.push(''); }
+  });
+  if (footer) {
+    lines.push('[ 참고 자료 ]');
+    footer.querySelectorAll('.source-item-text').forEach(s => lines.push('• ' + s.textContent.trim()));
+  }
+  const text = lines.join('\n').trim();
+  const fallback = () => {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+  };
+  const done = () => {
+    btn.classList.add('copied');
+    btn.innerHTML = '✓ 복사 완료';
+    setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '⎘ 복사'; }, 2200);
+  };
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(done).catch(() => { fallback(); done(); });
+  } else { fallback(); done(); }
 }
 
 function renderCard(block, idx) {
   const s = parseBlock(block);
-  const title  = s['제목'] || '';
-  const type   = s['유형'] || '';
-  const domain = s['분야'] || '';
+  const title   = s['제목'] || '';
+  const type    = s['유형'] || '';
+  const domain  = s['분야'] || '';
   const content = s['핵심내용'] || s['핵심 내용'] || '';
-  const impl   = s['전략적시사점'] || s['전략적 시사점'] || s['시사점'] || '';
-  const rdG    = s['선진국rd'] || s['선진국r&d'] || s['선진국rnd'] || '';
-  const rdK    = s['국내기획'] || s['국내 기획'] || '';
-  const src    = s['출처'] || '';
+  const impl    = s['전략적시사점'] || s['전략적 시사점'] || s['시사점'] || '';
+  const rdG     = s['선진국rd'] || s['선진국r&d'] || s['선진국rnd'] || s['선진국최신r&d방향'] || s['선진국최신rd방향'] || '';
+  const rdK     = s['국내기획'] || s['국내 기획'] || s['국내개발기획방향'] || '';
+  const src     = s['출처'] || '';
+  const cardId  = 'card-' + idx;
 
-  return `<div class="card">
-    <div class="card-head">
-      <span class="card-num">자료 ${idx+1}</span>
-      <div class="tags">
-        ${type   ? `<span class="tag tag-type">${type}</span>` : ''}
-        ${domain ? `<span class="tag tag-domain">${domain.slice(0,20)}</span>` : ''}
-      </div>
-    </div>
-    ${title ? `<div class="card-title">${title}</div>` : ''}
-    <div class="card-body">
-      ${content ? `<div class="section-block"><div class="section-label lbl-content">핵심 내용</div><div class="section-text">${toHtml(content)}</div></div>` : ''}
-      ${impl    ? `<div class="section-block"><div class="section-label lbl-impl">전략적 시사점</div><div class="section-text">${toHtml(impl)}</div></div>` : ''}
-      ${rdG     ? `<div class="section-block"><div class="section-label lbl-rd">선진국 최신 R&amp;D 방향</div><div class="section-text">${toHtml(rdG)}</div></div>` : ''}
-      ${rdK     ? `<div class="section-block"><div class="section-label lbl-korea">국내 개발 기획 방향</div><div class="section-text">${toHtml(rdK)}</div></div>` : ''}
-    </div>
-    ${renderSource(src)}
-  </div>`;
+  return '<div class="card" id="' + cardId + '">' +
+    '<div class="card-head">' +
+      '<div class="card-head-left">' +
+        '<span class="card-num">자료 ' + (idx+1) + '</span>' +
+        '<div class="tags">' +
+          (type   ? '<span class="tag tag-type">' + type + '</span>' : '') +
+          (domain ? '<span class="tag tag-domain">' + domain.slice(0,22) + '</span>' : '') +
+        '</div>' +
+      '</div>' +
+      '<button class="copy-btn" onclick="copyCard(\'' + cardId + '\')">⎘ 복사</button>' +
+    '</div>' +
+    (title ? '<div class="card-title">' + title + '</div>' : '') +
+    '<div class="card-body">' +
+      (content ? '<div class="section-block"><div class="section-label lbl-content">핵심 내용</div><div class="section-text">' + toHtml(content) + '</div></div>' : '') +
+      (impl    ? '<div class="section-block"><div class="section-label lbl-impl">전략적 시사점</div><div class="section-text">' + toHtml(impl) + '</div></div>' : '') +
+      (rdG     ? '<div class="section-block"><div class="section-label lbl-rd">선진국 최신 R&amp;D 방향</div><div class="section-text">' + toHtml(rdG) + '</div></div>' : '') +
+      (rdK     ? '<div class="section-block"><div class="section-label lbl-korea">국내 개발 기획 방향</div><div class="section-text">' + toHtml(rdK) + '</div></div>' : '') +
+    '</div>' +
+    renderSource(src) +
+  '</div>';
 }
 
 async function generate() {
@@ -231,14 +276,14 @@ async function generate() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ topic: cur }),
     });
-    if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error || `HTTP ${res.status}`); }
-    const { text, date } = await res.json();
-    const blocks = splitBlocks(text);
+    if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.error || 'HTTP ' + res.status); }
+    const data = await res.json();
+    const blocks = splitBlocks(data.text || '');
     if (!blocks.length) throw new Error('응답 형식 오류. 다시 시도해주세요.');
-    output.innerHTML = `<div class="cards">${blocks.map((b,i) => renderCard(b,i)).join('')}</div>`;
-    setStatus(`브리핑 완료 — ${date} · ${new Date().toLocaleTimeString('ko-KR')}`);
+    output.innerHTML = '<div class="cards">' + blocks.map((b,i) => renderCard(b,i)).join('') + '</div>';
+    setStatus('브리핑 완료 — ' + data.date + ' · ' + new Date().toLocaleTimeString('ko-KR'));
   } catch(e) {
-    output.innerHTML = `<div class="error-box">오류: ${e.message}</div>`;
+    output.innerHTML = '<div class="error-box">오류: ' + e.message + '</div>';
     setStatus('오류 발생');
   }
   btn.disabled = false;
