@@ -246,7 +246,8 @@ async function doFetch(isNext){
     const body={topic:cur};
     if(isNext&&lastSub)body.subtopic=lastSub;
     const res=await fetch('/api/briefing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    const data=await res.json();
+    let data;
+    try{data=await res.json();}catch(_){throw new Error('서버 응답 오류. 잠시 후 다시 시도해주세요.');}
     if(!res.ok||data.error)throw new Error(data.error||'HTTP '+res.status);
     if(!data.text)throw new Error('빈 응답. 다시 시도해주세요.');
     lastSub=data.subtopic||'';
