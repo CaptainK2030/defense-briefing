@@ -8,41 +8,28 @@ export default async function handler(request) {
     'Content-Type': 'application/json',
   };
 
-  if (request.method === 'OPTIONS') {
-    return new Response(null, { status: 200, headers: corsHeaders });
-  }
-
-  if (request.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: corsHeaders });
-  }
+  if (request.method === 'OPTIONS') return new Response(null, { status: 200, headers: corsHeaders });
+  if (request.method !== 'POST') return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: corsHeaders });
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    return new Response(JSON.stringify({ error: 'API 키가 설정되지 않았습니다.' }), { status: 500, headers: corsHeaders });
-  }
+  if (!apiKey) return new Response(JSON.stringify({ error: 'API 키가 설정되지 않았습니다.' }), { status: 500, headers: corsHeaders });
 
   let topic = 'ai', subtopic = '';
-  try {
-    const body = await request.json();
-    topic = body.topic || 'ai';
-    subtopic = body.subtopic || '';
-  } catch (_) {}
+  try { const b = await request.json(); topic = b.topic || 'ai'; subtopic = b.subtopic || ''; } catch (_) {}
 
-  const today = new Date().toLocaleDateString('ko-KR', {
-    year: 'numeric', month: 'long', day: 'numeric', weekday: 'short'
-  });
+  const today = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' });
 
   const TOPICS = {
-    ai:         '인공지능(AI) — 국방 AI 플랫폼, 자율 의사결정',
-    uav:        '유·무인복합 — 드론, 무인기, 로봇전투체계',
-    quantum:    '양자기술 — 양자통신, 양자센서, 양자암호',
-    space:      '우주전력 — 정찰위성, 위성항법, 우주상황인식',
-    energy:     '지향성에너지(DEW) — 고출력 레이저·마이크로파',
-    material:   '첨단소재 — 스텔스, 초고강도 구조재, 나노소재',
-    cyber:      '사이버·네트워크 — 사이버전, 전자전, C4I',
-    sensor:     '센서·전자기전 — 레이더, 적외선·광학센서',
-    propulsion: '추진 — 극초음속, 고체추진, 항공·해양 추진',
-    wmd:        'WMD 대응 — 미사일방어, 핵억제, 화생방 방어',
+    ai:'인공지능(AI) — 국방 AI 플랫폼, 자율 의사결정',
+    uav:'유·무인복합 — 드론, 무인기, 로봇전투체계',
+    quantum:'양자기술 — 양자통신, 양자센서, 양자암호',
+    space:'우주전력 — 정찰위성, 위성항법, 우주상황인식',
+    energy:'지향성에너지(DEW) — 고출력 레이저·마이크로파',
+    material:'첨단소재 — 스텔스, 초고강도 구조재, 나노소재',
+    cyber:'사이버·네트워크 — 사이버전, 전자전, C4I',
+    sensor:'센서·전자기전 — 레이더, 적외선·광학센서',
+    propulsion:'추진 — 극초음속, 고체추진, 항공·해양 추진',
+    wmd:'WMD 대응 — 미사일방어, 핵억제, 화생방 방어',
   };
 
   const topicText = TOPICS[topic] || TOPICS.ai;
@@ -52,21 +39,20 @@ export default async function handler(request) {
 분야: ${topicText} / 기준일: ${today}
 ${subtopicHint}
 
-아래 형식으로 브리핑 1건을 작성하세요. 마크다운 기호(#,**,-,*) 사용 금지. 각 섹션은 새 줄에서 [태그]로 시작.
-각 사실·수치마다 (기관명, 연도) 괄호 인용 포함.
+아래 형식으로 브리핑 1건을 작성하세요. 마크다운 기호 사용 금지. 각 섹션은 새 줄에서 [태그]로 시작. 각 사실·수치마다 (기관명, 연도) 괄호 인용 포함.
 
 ===자료1===
 [제목] 전략적 함의가 드러나는 분석적 제목
 [유형] 싱크탱크보고서/정책보고서/학술논문/뉴스분석 중 택1
 [분야] 해당 기술 분야명
 [핵심내용]
-600자 이상. 기술 현황·주요 행위자 의도·기술-작전-정책 연계 구조 분석. 수치·프로그램명·기관명·예산 포함. 괄호 인용 포함.
+500자 이상. 기술 현황, 주요 행위자 의도, 기술-작전-정책 연계 분석. 수치·프로그램명·기관명·예산 포함. 괄호 인용 포함.
 [전략적시사점]
-700자 이상. ①한반도 특수성(종심250km·수도권·원전·항만 취약성·구체적 시나리오) ②북한 위협(현재역량·우크라이나교훈흡수·러시아기술이전시나리오) ③동맹함의(2026 NDS·한미역할분담·한미일협력). 괄호 인용 포함.
+600자 이상. ①한반도 특수성(종심250km·수도권·원전·항만 취약성·구체적 시나리오) ②북한 위협(현재역량·우크라이나교훈·러시아기술이전시나리오) ③동맹함의(한미역할분담·한미일협력). 괄호 인용 포함.
 [선진국RD]
-400자 이상. 미국·이스라엘·영국·일본 중 3개국. 프로그램명·예산·타임라인. 괄호 인용 포함.
+300자 이상. 미국·이스라엘·영국·일본 중 3개국. 프로그램명·예산·타임라인. 괄호 인용 포함.
 [국내기획]
-400자 이상. 사업명·예산·주관기관, 법령개선, 단기·중기·장기 로드맵. 괄호 인용 포함.
+300자 이상. 사업명·예산·주관기관, 법령개선, 단기·중기·장기 로드맵. 괄호 인용 포함.
 [출처]
 1. 기관명, 자료명, 연도
 2. 기관명, 자료명, 연도
@@ -83,8 +69,8 @@ ${subtopicHint}
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 2500,
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 2000,
         messages: [{ role: 'user', content: prompt }],
       }),
     });
@@ -99,14 +85,8 @@ ${subtopicHint}
     const titleMatch = text.match(/\[제목\]\s*([^\n]+)/);
     const newSubtopic = titleMatch ? titleMatch[1].trim() : '';
 
-    return new Response(
-      JSON.stringify({ text, date: today, subtopic: newSubtopic }),
-      { status: 200, headers: corsHeaders }
-    );
+    return new Response(JSON.stringify({ text, date: today, subtopic: newSubtopic }), { status: 200, headers: corsHeaders });
   } catch (e) {
-    return new Response(
-      JSON.stringify({ error: e.message }),
-      { status: 500, headers: corsHeaders }
-    );
+    return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: corsHeaders });
   }
 }
