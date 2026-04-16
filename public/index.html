@@ -280,7 +280,9 @@ async function fetchBriefing(isNext){
     const body={topic:cur};
     if(isNext&&lastSubtopic)body.subtopic=lastSubtopic;
     const res=await fetch('/api/briefing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...body, desktop:true})});
-    const data=await res.json();
+    const raw=await res.text();
+    let data;
+    try{data=JSON.parse(raw);}catch(_){throw new Error('서버 오류 ('+res.status+'): '+raw.slice(0,120));}
     if(!res.ok||data.error)throw new Error(data.error||'HTTP '+res.status);
     if(!data.text)throw new Error('빈 응답. 다시 시도해주세요.');
     lastSubtopic=data.subtopic||'';
