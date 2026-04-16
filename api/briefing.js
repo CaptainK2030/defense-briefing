@@ -1,31 +1,48 @@
-export const maxDuration = 60;
+export const config = { runtime: 'edge' };
 
-export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+export default async function handler(request) {
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Content-Type': 'application/json',
+  };
 
-  const { topic, subtopic } = req.body || {};
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 200, headers: corsHeaders });
+  }
+
+  if (request.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: corsHeaders });
+  }
+
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return res.status(500).json({ error: 'API 키가 설정되지 않았습니다.' });
+  if (!apiKey) {
+    return new Response(JSON.stringify({ error: 'API 키가 설정되지 않았습니다.' }), { status: 500, headers: corsHeaders });
+  }
+
+  let topic = 'ai', subtopic = '';
+  try {
+    const body = await request.json();
+    topic = body.topic || 'ai';
+    subtopic = body.subtopic || '';
+  } catch (_) {}
 
   const today = new Date().toLocaleDateString('ko-KR', {
     year: 'numeric', month: 'long', day: 'numeric', weekday: 'short'
   });
 
   const TOPICS = {
-    ai:         '인공지능(AI) — 국방 AI 플랫폼, 자율 의사결정, 전장 인식',
-    uav:        '유·무인복합 — 드론, 무인기, 로봇전투체계, 유무인 협업작전',
-    quantum:    '양자기술 — 양자통신, 양자센서, 양자암호, 양자컴퓨팅',
-    space:      '우주전력 — 정찰위성, 위성항법, 우주상황인식, 대위성 전력',
-    energy:     '지향성에너지(DEW) — 고출력 레이저·마이크로파 무기체계',
-    material:   '첨단소재 — 스텔스, 초고강도 구조재, 나노·메타소재',
-    cyber:      '사이버·네트워크 — 사이버전, 전자전, C4I, 전술 네트워크',
-    sensor:     '센서·전자기전 — 레이더, 적외선·광학센서, 전자기 공격·방어',
-    propulsion: '추진 — 극초음속, 고체추진, 항공·해양 추진체계',
-    wmd:        'WMD 대응 — 미사일방어, 핵억제, 고위력 정밀타격, 화생방',
+    ai:         '인공지능(AI) — 국방 AI 플랫폼, 자율 의사결정',
+    uav:        '유·무인복합 — 드론, 무인기, 로봇전투체계',
+    quantum:    '양자기술 — 양자통신, 양자센서, 양자암호',
+    space:      '우주전력 — 정찰위성, 위성항법, 우주상황인식',
+    energy:     '지향성에너지(DEW) — 고출력 레이저·마이크로파',
+    material:   '첨단소재 — 스텔스, 초고강도 구조재, 나노소재',
+    cyber:      '사이버·네트워크 — 사이버전, 전자전, C4I',
+    sensor:     '센서·전자기전 — 레이더, 적외선·광학센서',
+    propulsion: '추진 — 극초음속, 고체추진, 항공·해양 추진',
+    wmd:        'WMD 대응 — 미사일방어, 핵억제, 화생방 방어',
   };
 
   const topicText = TOPICS[topic] || TOPICS.ai;
@@ -43,25 +60,21 @@ ${subtopicHint}
 [유형] 싱크탱크보고서/정책보고서/학술논문/뉴스분석 중 택1
 [분야] 해당 기술 분야명
 [핵심내용]
-700자 이상. 기술 현황·주요 행위자 의도·기술-작전-정책 연계 구조 분석. 수치·프로그램명·기관명·예산 포함. 전쟁사 선례 비교. 괄호 인용 포함.
+600자 이상. 기술 현황·주요 행위자 의도·기술-작전-정책 연계 구조 분석. 수치·프로그램명·기관명·예산 포함. 괄호 인용 포함.
 [전략적시사점]
-800자 이상. ①한반도 특수성(종심250km·수도권·원전·항만 취약성·구체적 시나리오) ②북한 위협(현재역량·우크라이나교훈흡수·러시아기술이전시나리오) ③동맹함의(2026 NDS·한미역할분담·한미일협력). 괄호 인용 포함.
+700자 이상. ①한반도 특수성(종심250km·수도권·원전·항만 취약성·구체적 시나리오) ②북한 위협(현재역량·우크라이나교훈흡수·러시아기술이전시나리오) ③동맹함의(2026 NDS·한미역할분담·한미일협력). 괄호 인용 포함.
 [선진국RD]
-500자 이상. 미국·이스라엘·영국·일본 중 3개국 이상. 프로그램명·예산·타임라인. 괄호 인용 포함.
+400자 이상. 미국·이스라엘·영국·일본 중 3개국. 프로그램명·예산·타임라인. 괄호 인용 포함.
 [국내기획]
-500자 이상. 사업명·예산·주관기관·기간, 법령개선, 단기·중기·장기 로드맵. 괄호 인용 포함.
+400자 이상. 사업명·예산·주관기관, 법령개선, 단기·중기·장기 로드맵. 괄호 인용 포함.
 [출처]
 1. 기관명, 자료명, 연도
 2. 기관명, 자료명, 연도
 3. 기관명, 자료명, 연도
 4. 기관명, 자료명, 연도
-5. 기관명, 자료명, 연도
-6. 기관명, 자료명, 연도`;
+5. 기관명, 자료명, 연도`;
 
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 50000);
-
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -71,26 +84,29 @@ ${subtopicHint}
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 3000,
+        max_tokens: 2500,
         messages: [{ role: 'user', content: prompt }],
       }),
-      signal: controller.signal,
     });
-
-    clearTimeout(timer);
 
     if (!response.ok) {
       const err = await response.text();
-      return res.status(response.status).json({ error: err });
+      return new Response(JSON.stringify({ error: err }), { status: response.status, headers: corsHeaders });
     }
 
     const data = await response.json();
     const text = data.content?.find(b => b.type === 'text')?.text || '';
     const titleMatch = text.match(/\[제목\]\s*([^\n]+)/);
-    const subtopic = titleMatch ? titleMatch[1].trim() : '';
-    return res.status(200).json({ text, date: today, subtopic });
+    const newSubtopic = titleMatch ? titleMatch[1].trim() : '';
+
+    return new Response(
+      JSON.stringify({ text, date: today, subtopic: newSubtopic }),
+      { status: 200, headers: corsHeaders }
+    );
   } catch (e) {
-    const msg = e.name === 'AbortError' ? '응답 시간 초과. 다시 시도해주세요.' : e.message;
-    return res.status(500).json({ error: msg });
+    return new Response(
+      JSON.stringify({ error: e.message }),
+      { status: 500, headers: corsHeaders }
+    );
   }
 }
