@@ -5,12 +5,13 @@ export default async function handler(request) {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
+    'Content-Type': 'application/json',
   };
   if (request.method === 'OPTIONS') return new Response(null, { status: 200, headers: cors });
-  if (request.method !== 'POST') return new Response('err', { status: 405, headers: cors });
+  if (request.method !== 'POST') return new Response('{}', { status: 405, headers: cors });
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return new Response('NOKEY', { status: 500, headers: cors });
+  if (!apiKey) return new Response(JSON.stringify({ error: 'API 키 없음' }), { status: 500, headers: cors });
 
   let topic = 'ai', subtopic = '';
   try { const b = await request.json(); topic = b.topic || 'ai'; subtopic = b.subtopic || ''; } catch (_) {}
@@ -37,7 +38,8 @@ export default async function handler(request) {
 분야: ${topicText} / 기준일: ${today}
 ${subtopicHint}
 
-아래 형식으로 브리핑 1건 작성. 마크다운 기호 사용 금지. 각 섹션은 새 줄에서 [태그]로 시작. 각 사실·수치마다 (기관명, 연도) 괄호 인용.
+아래 형식으로 브리핑 1건 작성. 마크다운 기호 사용 금지. 각 섹션은 새 줄에서 [태그]로 시작.
+각 사실·수치마다 (기관명, 연도) 괄호 인용.
 
 ===자료1===
 [제목] 전략적 함의가 드러나는 분석적 제목
@@ -58,73 +60,58 @@ ${subtopicHint}
 4. 기관명, 자료명, 연도
 5. 기관명, 자료명, 연도`;
 
-  const upstream = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1800,
-      stream: true,
-      messages: [{ role: 'user', content: prompt }],
-    }),
-  });
+  try {
+    // 서버에서 Anthropic 스트리밍 → 전체 텍스트 수집 → 한 번에 JSON 반환
+    const upstream = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1800,
+        stream: true,
+        messages: [{ role: 'user', content: prompt }],
+      }),
+    });
 
-  if (!upstream.ok) {
-    const err = await upstream.text();
-    return new Response(err, { status: upstream.status, headers: cors });
-  }
+    if (!upstream.ok) {
+      const err = await upstream.text();
+      return new Response(JSON.stringify({ error: 'Anthropic: ' + err.slice(0, 200) }), { status: upstream.status, headers: cors });
+    }
 
-  const encoder = new TextEncoder();
-  const { readable, writable } = new TransformStream();
-  const writer = writable.getWriter();
-
-  (async () => {
+    // 스트림 읽어서 fullText 조립
     const reader = upstream.body.getReader();
-    const decoder = new TextDecoder();
+    const dec = new TextDecoder();
     let fullText = '';
     let buf = '';
-    try {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buf += decoder.decode(value, { stream: true });
-        const lines = buf.split('\n');
-        buf = lines.pop() || '';
-        for (const line of lines) {
-          const t = line.trim();
-          if (!t.startsWith('data:')) continue;
-          const raw = t.slice(5).trim();
-          if (raw === '[DONE]') continue;
-          try {
-            const evt = JSON.parse(raw);
-            if (evt.type === 'content_block_delta' && evt.delta?.type === 'text_delta') {
-              const chunk = evt.delta.text;
-              fullText += chunk;
-              // 청크를 16진수로 인코딩해서 전송 (줄바꿈 안전)
-              const hex = Array.from(new TextEncoder().encode(chunk))
-                .map(b => b.toString(16).padStart(2, '0')).join('');
-              await writer.write(encoder.encode('c' + hex + '\n'));
-            }
-          } catch (_) {}
-        }
-      }
-      // 완료 메타데이터 전송
-      const titleMatch = fullText.match(/\[제목\]\s*([^\n]+)/);
-      const newSubtopic = titleMatch ? titleMatch[1].trim() : '';
-      const metaHex = Array.from(new TextEncoder().encode(JSON.stringify({ date: today, subtopic: newSubtopic })))
-        .map(b => b.toString(16).padStart(2, '0')).join('');
-      await writer.write(encoder.encode('m' + metaHex + '\n'));
-      await writer.write(encoder.encode('d\n'));
-    } catch (e) {
-      const errHex = Array.from(new TextEncoder().encode(e.message))
-        .map(b => b.toString(16).padStart(2, '0')).join('');
-      await writer.write(encoder.encode('e' + errHex + '\n'));
-    } finally {
-      await writer.close();
-    }
-  })();
 
-  return new Response(readable, {
-    headers: { ...cors, 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no' },
-  });
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      const lines = buf.split('\n');
+      buf = lines.pop() || '';
+      for (const line of lines) {
+        const t = line.trim();
+        if (!t.startsWith('data:')) continue;
+        const raw = t.slice(5).trim();
+        if (raw === '[DONE]') continue;
+        try {
+          const evt = JSON.parse(raw);
+          if (evt.type === 'content_block_delta' && evt.delta?.type === 'text_delta') {
+            fullText += evt.delta.text;
+          }
+        } catch (_) {}
+      }
+    }
+
+    if (!fullText) return new Response(JSON.stringify({ error: '빈 응답. 다시 시도해주세요.' }), { status: 500, headers: cors });
+
+    const titleMatch = fullText.match(/\[제목\]\s*([^\n]+)/);
+    const newSubtopic = titleMatch ? titleMatch[1].trim() : '';
+
+    return new Response(JSON.stringify({ text: fullText, date: today, subtopic: newSubtopic }), { status: 200, headers: cors });
+
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: cors });
+  }
 }
