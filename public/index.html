@@ -9,7 +9,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#0d0f14;--bg2:#13161e;--bg3:#1a1e28;
-  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.15);
+  --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.15);
   --text:#f0f2f5;--text2:#b0b8c8;--text3:#6b7590;
   --accent:#5b9fff;--accent2:#1c3a6e;
   --green:#4ade80;--amber:#fbbf24;--purple:#c084fc;--red:#f87171;
@@ -17,301 +17,264 @@
 }
 html{font-size:18px}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.75}
-header{border-bottom:1px solid var(--border);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(13,15,20,0.96);backdrop-filter:blur(16px);z-index:100}
+header{border-bottom:1px solid var(--border);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(13,15,20,.96);backdrop-filter:blur(16px);z-index:100}
 .logo{font-family:var(--mono);font-size:13px;letter-spacing:.15em;color:var(--accent);display:flex;align-items:center;gap:10px}
 .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-.header-date{font-family:var(--mono);font-size:13px;color:var(--text3)}
+.hdate{font-family:var(--mono);font-size:13px;color:var(--text3)}
 main{max-width:960px;margin:0 auto;padding:3rem 2rem 6rem}
-.hero{margin-bottom:3rem}
-.hero-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--text3);margin-bottom:14px}
+.hero{margin-bottom:2.5rem}
+.hero-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--text3);margin-bottom:12px}
 .hero-title{font-size:clamp(28px,3.5vw,40px);font-weight:700;line-height:1.15;margin-bottom:10px}
 .hero-sub{font-size:16px;color:var(--text2)}
 .cost-bar{display:flex;align-items:center;gap:10px;margin-top:12px;font-family:var(--mono);font-size:13px;color:var(--text3);flex-wrap:wrap}
 .cost-pill{padding:3px 10px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);border-radius:4px;color:var(--green)}
-.controls-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.5rem 1.75rem;margin-bottom:2.5rem}
+.ctrl-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.5rem 1.75rem;margin-bottom:2.5rem}
 .ctrl-label{font-family:var(--mono);font-size:12px;color:var(--text3);letter-spacing:.14em;margin-bottom:14px;display:block}
 .tech-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1.25rem}
 .t-btn{font-family:var(--sans);font-size:14px;font-weight:500;padding:10px 8px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all .15s;text-align:center;line-height:1.35}
-.t-btn .btn-num{display:block;font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:3px}
-.t-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent2)}
-.t-btn.active{background:var(--accent2);border-color:var(--accent);color:var(--accent)}
-.t-btn.active .btn-num{color:#7ab5ff}
+.t-btn .n{display:block;font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:3px}
+.t-btn:hover,.t-btn.active{border-color:var(--accent);color:var(--accent);background:var(--accent2)}
+.t-btn.active .n{color:#7ab5ff}
 .action-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.selected-label{font-size:15px;color:var(--text2)}
-.selected-label strong{color:var(--accent);font-weight:600}
+.sel{font-size:15px;color:var(--text2)}
+.sel strong{color:var(--accent);font-weight:600}
 .btn-group{display:flex;gap:8px}
 .gen-btn{font-family:var(--sans);font-size:16px;font-weight:600;padding:12px 28px;border-radius:9px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;transition:all .15s;white-space:nowrap}
 .gen-btn:hover:not(:disabled){background:var(--accent);color:#fff}
 .gen-btn:disabled{opacity:.3;cursor:not-allowed}
-.next-btn{font-family:var(--sans);font-size:16px;font-weight:600;padding:12px 20px;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap;display:none}
-.next-btn:hover:not(:disabled){border-color:var(--green);color:var(--green);background:rgba(74,222,128,.08)}
-.next-btn:disabled{opacity:.3;cursor:not-allowed}
-.next-btn.visible{display:block}
+.nxt-btn{font-family:var(--sans);font-size:16px;font-weight:600;padding:12px 20px;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap;display:none}
+.nxt-btn:hover:not(:disabled){border-color:var(--green);color:var(--green);background:rgba(74,222,128,.08)}
+.nxt-btn:disabled{opacity:.3;cursor:not-allowed}
+.nxt-btn.show{display:block}
 .status{font-family:var(--mono);font-size:13px;color:var(--text3);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px;min-height:22px}
 .spinner{width:13px;height:13px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
-.briefing-counter{display:none;font-family:var(--mono);font-size:12px;color:var(--text3);margin-bottom:1.25rem;padding:7px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px}
-.briefing-counter.visible{display:block}
+.counter{display:none;font-family:var(--mono);font-size:12px;color:var(--text3);margin-bottom:1.25rem;padding:7px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px}
+.counter.show{display:block}
 .empty{text-align:center;padding:4rem 1rem;border:1px dashed var(--border2);border-radius:14px;color:var(--text3);font-size:16px;line-height:2.2}
-.error-box{padding:1.25rem 1.5rem;background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.2);border-radius:10px;color:var(--red);font-family:var(--mono);font-size:14px;line-height:1.7}
+.err{padding:1.25rem 1.5rem;background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.2);border-radius:10px;color:var(--red);font-family:var(--mono);font-size:14px;line-height:1.7;word-break:break-all}
 .cards{display:flex;flex-direction:column;gap:2.5rem}
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden}
 .card-head{padding:1rem 1.75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--bg3);flex-wrap:wrap}
-.card-head-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.card-num{font-family:var(--mono);font-size:12px;color:var(--text3)}
+.card-head-l{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cnum{font-family:var(--mono);font-size:12px;color:var(--text3)}
 .tags{display:flex;gap:6px;flex-wrap:wrap}
 .tag{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:4px;border:1px solid}
-.tag-type{border-color:rgba(91,159,255,.35);color:var(--accent);background:rgba(91,159,255,.08)}
-.tag-domain{border-color:rgba(74,222,128,.35);color:var(--green);background:rgba(74,222,128,.08)}
-.copy-btn{font-family:var(--mono);font-size:12px;padding:6px 13px;border-radius:7px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;transition:all .15s}
-.copy-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent2)}
-.copy-btn.copied{border-color:var(--green);color:var(--green);background:rgba(74,222,128,.08)}
-.card-title{font-size:20px;font-weight:700;color:var(--text);line-height:1.4;padding:1.5rem 1.75rem 0;word-break:keep-all}
-.card-body{padding:.5rem 1.75rem 1.75rem}
-.section-block{margin-top:1.75rem}
-.section-label{font-family:var(--mono);font-size:11px;letter-spacing:.12em;padding:5px 12px;border-radius:5px;display:inline-block;margin-bottom:12px;font-weight:500}
-.lbl-content{background:rgba(91,159,255,.1);color:#7ab5ff;border:1px solid rgba(91,159,255,.25)}
-.lbl-impl{background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25)}
-.lbl-rd{background:rgba(251,191,36,.1);color:#fbbf24;border:1px solid rgba(251,191,36,.25)}
-.lbl-korea{background:rgba(192,132,252,.1);color:#c084fc;border:1px solid rgba(192,132,252,.25)}
-.section-text{font-size:16px;color:var(--text2);line-height:2.0;word-break:keep-all}
-.section-text p{margin-bottom:.85rem}
-.section-text p:last-child{margin-bottom:0}
-.num-marker{color:var(--accent);font-weight:700}
-.cite{font-size:13px;color:var(--text3);font-family:var(--mono)}
-.card-footer{border-top:1px solid var(--border);padding:1rem 1.75rem;background:var(--bg3)}
-.source-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--text3);margin-bottom:8px}
-.source-list{display:flex;flex-direction:column;gap:6px}
-.source-item{display:flex;align-items:flex-start;gap:8px;font-size:14px;color:var(--text3);line-height:1.6}
-.source-dot{width:4px;height:4px;border-radius:50%;background:var(--text3);flex-shrink:0;margin-top:9px}
-.source-item-text{flex:1;word-break:keep-all}
-.source-search-btn{flex-shrink:0;font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:4px;border:1px solid rgba(91,159,255,.3);color:var(--accent);background:rgba(91,159,255,.06);text-decoration:none;white-space:nowrap}
-.source-search-btn:hover{background:rgba(91,159,255,.18)}
-/* 아코디언 */
+.tt{border-color:rgba(91,159,255,.35);color:var(--accent);background:rgba(91,159,255,.08)}
+.td{border-color:rgba(74,222,128,.35);color:var(--green);background:rgba(74,222,128,.08)}
+.cbtn{font-family:var(--mono);font-size:12px;padding:6px 13px;border-radius:7px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;transition:all .15s}
+.cbtn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent2)}
+.cbtn.ok{border-color:var(--green);color:var(--green);background:rgba(74,222,128,.08)}
+.ctitle{font-size:20px;font-weight:700;color:var(--text);line-height:1.4;padding:1.5rem 1.75rem 0;word-break:keep-all}
 .acc-item{border-bottom:1px solid var(--border)}
 .acc-item:last-child{border-bottom:none}
 .acc-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:1rem 1.75rem;background:transparent;border:none;cursor:pointer;text-align:left;gap:10px;transition:background .15s}
-.acc-btn:hover{background:rgba(255,255,255,.03)}
-.acc-label{font-family:var(--mono);font-size:11px;letter-spacing:.12em;padding:5px 12px;border-radius:5px;font-weight:500}
+.acc-btn:hover{background:rgba(255,255,255,.025)}
+.acc-lbl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;padding:5px 12px;border-radius:5px;font-weight:500}
+.lc{background:rgba(91,159,255,.1);color:#7ab5ff;border:1px solid rgba(91,159,255,.25)}
+.li{background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25)}
+.lr{background:rgba(251,191,36,.1);color:#fbbf24;border:1px solid rgba(251,191,36,.25)}
+.lk{background:rgba(192,132,252,.1);color:#c084fc;border:1px solid rgba(192,132,252,.25)}
 .acc-arrow{font-size:12px;color:var(--text3);transition:transform .2s;flex-shrink:0}
 .acc-arrow.open{transform:rotate(180deg)}
 .acc-body{font-size:16px;color:var(--text2);line-height:2.0;padding:0 1.75rem 1.25rem;display:none;word-break:keep-all}
 .acc-body.open{display:block}
 .acc-body p{margin-bottom:.85rem}
 .acc-body p:last-child{margin-bottom:0}
-.mobile-link{display:none}
-@media(max-width:768px){
-  .mobile-link{display:block;text-align:center;margin-bottom:1rem;padding:.75rem;background:var(--bg2);border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text2)}
-  .mobile-link a{color:var(--accent);text-decoration:none;font-weight:600}
-}
+.nm{color:var(--accent);font-weight:700}
+.cite{font-size:13px;color:var(--text3);font-family:var(--mono)}
+.src-box{border-top:1px solid var(--border);padding:1rem 1.75rem;background:var(--bg3)}
+.src-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--text3);margin-bottom:8px}
+.src-list{display:flex;flex-direction:column;gap:6px}
+.src-item{display:flex;align-items:flex-start;gap:8px;font-size:14px;color:var(--text3);line-height:1.6}
+.src-dot{width:4px;height:4px;border-radius:50%;background:var(--text3);flex-shrink:0;margin-top:9px}
+.src-txt{flex:1;word-break:keep-all}
+.src-btn{flex-shrink:0;font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:4px;border:1px solid rgba(91,159,255,.3);color:var(--accent);background:rgba(91,159,255,.06);text-decoration:none;white-space:nowrap}
+.src-btn:hover{background:rgba(91,159,255,.18)}
 </style>
 </head>
 <body>
 <header>
   <div class="logo"><div class="logo-dot"></div>DEFENSE INTEL AGENT</div>
-  <div class="header-date" id="headerDate"></div>
+  <div class="hdate" id="hdate"></div>
 </header>
 <main>
-  <div class="mobile-link">스마트폰 최적화 버전: <a href="/m">defense-briefing.vercel.app/m</a></div>
   <div class="hero">
     <div class="hero-eyebrow">국방 오피니언 리더 보좌 시스템</div>
     <h1 class="hero-title">국방 인텔리전스<br>브리핑 에이전트</h1>
     <div class="hero-sub">방위사업청 「'25~'39 국방기술기획서」 10대 전략기술 · 박사급 심층 분석</div>
-    <div class="cost-bar"><span class="cost-pill">Vercel 호스팅 무료</span><span>Claude API: 생성 1회당 약 ₩30 · 월 30회 기준 약 ₩900</span></div>
+    <div class="cost-bar"><span class="cost-pill">Vercel 호스팅 무료</span><span>Claude API: 생성 1회당 약 ₩30</span></div>
   </div>
-  <div class="controls-wrap">
+  <div class="ctrl-wrap">
     <span class="ctrl-label">방위사업청 10대 국방전략기술 분야</span>
-    <div class="tech-grid" id="topicGrid">
-      <button class="t-btn active" data-topic="ai" data-label="① 인공지능(AI)"><span class="btn-num">① AI</span>인공지능</button>
-      <button class="t-btn" data-topic="uav" data-label="② 유·무인복합"><span class="btn-num">② 무인</span>유·무인복합</button>
-      <button class="t-btn" data-topic="quantum" data-label="③ 양자기술"><span class="btn-num">③ 양자</span>양자기술</button>
-      <button class="t-btn" data-topic="space" data-label="④ 우주전력"><span class="btn-num">④ 우주</span>우주전력</button>
-      <button class="t-btn" data-topic="energy" data-label="⑤ 지향성에너지"><span class="btn-num">⑤ 에너지</span>지향성에너지</button>
-      <button class="t-btn" data-topic="material" data-label="⑥ 첨단소재"><span class="btn-num">⑥ 소재</span>첨단소재</button>
-      <button class="t-btn" data-topic="cyber" data-label="⑦ 사이버·C4I"><span class="btn-num">⑦ 사이버</span>사이버·C4I</button>
-      <button class="t-btn" data-topic="sensor" data-label="⑧ 센서·전자기전"><span class="btn-num">⑧ 센서</span>센서·전자기전</button>
-      <button class="t-btn" data-topic="propulsion" data-label="⑨ 극초음속·추진"><span class="btn-num">⑨ 추진</span>극초음속·추진</button>
-      <button class="t-btn" data-topic="wmd" data-label="⑩ WMD 대응"><span class="btn-num">⑩ WMD</span>WMD 대응</button>
+    <div class="tech-grid">
+      <button class="t-btn active" data-t="ai" data-l="① 인공지능(AI)"><span class="n">① AI</span>인공지능</button>
+      <button class="t-btn" data-t="uav" data-l="② 유·무인복합"><span class="n">② 무인</span>유·무인복합</button>
+      <button class="t-btn" data-t="quantum" data-l="③ 양자기술"><span class="n">③ 양자</span>양자기술</button>
+      <button class="t-btn" data-t="space" data-l="④ 우주전력"><span class="n">④ 우주</span>우주전력</button>
+      <button class="t-btn" data-t="energy" data-l="⑤ 지향성에너지"><span class="n">⑤ 에너지</span>지향성에너지</button>
+      <button class="t-btn" data-t="material" data-l="⑥ 첨단소재"><span class="n">⑥ 소재</span>첨단소재</button>
+      <button class="t-btn" data-t="cyber" data-l="⑦ 사이버·C4I"><span class="n">⑦ 사이버</span>사이버·C4I</button>
+      <button class="t-btn" data-t="sensor" data-l="⑧ 센서·전자기전"><span class="n">⑧ 센서</span>센서·전자기전</button>
+      <button class="t-btn" data-t="propulsion" data-l="⑨ 극초음속·추진"><span class="n">⑨ 추진</span>극초음속·추진</button>
+      <button class="t-btn" data-t="wmd" data-l="⑩ WMD 대응"><span class="n">⑩ WMD</span>WMD 대응</button>
     </div>
     <div class="action-row">
-      <div class="selected-label">선택된 분야: <strong id="selectedLabel">① 인공지능(AI)</strong></div>
+      <div class="sel">선택된 분야: <strong id="selLabel">① 인공지능(AI)</strong></div>
       <div class="btn-group">
-        <button class="next-btn" id="nextBtn" onclick="generateNext()">다음 자료 ↻</button>
-        <button class="gen-btn" id="genBtn" onclick="generateNew()">브리핑 생성 ↗</button>
+        <button class="nxt-btn" id="nxtBtn" onclick="genNext()">다음 자료 ↻</button>
+        <button class="gen-btn" id="genBtn" onclick="genNew()">브리핑 생성 ↗</button>
       </div>
     </div>
   </div>
-  <div class="briefing-counter" id="briefingCounter"></div>
+  <div class="counter" id="counter"></div>
   <div class="status" id="status">분야를 선택하고 브리핑 생성 버튼을 누르세요.</div>
-  <div id="output">
-    <div class="empty">10대 전략기술 분야를 선택하고 브리핑 생성을 누르세요<br><span style="font-size:14px;color:var(--text3)">자료 1건씩 · 박사급 심층 분석 · 인용 근거 · 참고 자료 구글 검색</span></div>
-  </div>
+  <div id="out"><div class="empty">10대 전략기술 분야를 선택하고 브리핑 생성을 누르세요<br><span style="font-size:14px;color:var(--text3)">자료 1건씩 · 박사급 심층 분석 · 인용 근거 · 참고 자료 구글 검색</span></div></div>
 </main>
 <script>
 const today=new Date();
-document.getElementById('headerDate').textContent=today.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
-let cur='ai',sessionCards=[],lastSubtopic='';
+document.getElementById('hdate').textContent=today.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
+let cur='ai',cards=[],lastSub='';
 document.querySelectorAll('.t-btn').forEach(b=>{
   b.addEventListener('click',()=>{
     document.querySelectorAll('.t-btn').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');cur=b.dataset.topic;
-    document.getElementById('selectedLabel').textContent=b.dataset.label;
+    b.classList.add('active');cur=b.dataset.t;
+    document.getElementById('selLabel').textContent=b.dataset.l;
   });
 });
-function setStatus(msg,loading=false){
+function setSt(msg,loading=false){
   document.getElementById('status').innerHTML=loading?'<span class="spinner"></span><span style="color:#5b9fff">'+msg+'</span>':'<span>'+msg+'</span>';
 }
-function parseBlock(block){
-  const result={};
-  const re=/\[([^\]]+)\]\s*\n?([\s\S]+?)(?=\n\s*\[[^\]]+\]|$)/g;
-  let m;
-  while((m=re.exec(block))!==null){
-    const key=m[1].trim().toLowerCase().replace(/\s+/g,'');
-    result[key]=m[2].trim();
-  }
-  return result;
+function parseBlock(t){
+  const r={};const re=/\[([^\]]+)\]\s*\n?([\s\S]+?)(?=\n\s*\[[^\]]+\]|$)/g;let m;
+  while((m=re.exec(t))!==null){r[m[1].trim().toLowerCase().replace(/\s+/g,'')]=m[2].trim();}
+  return r;
 }
-function toHtml(text){
-  if(!text)return'';
-  const esc=text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  return esc
-    .replace(/(①|②|③|④|⑤|⑥)/g,'<span class="num-marker">$1</span>')
-    .replace(/\(([^)]{4,60}(?:년|부|청|원|연구소|연구원|사령부|대학|DARPA|RUSI|CSIS|RAND|NATO|DoD|IDF|DSTL|ADD|합참|국방부|방사청)[^)]*)\)/g,' <span class="cite">($1)</span>')
-    .replace(/\n{2,}/g,'</p><p>')
-    .replace(/\n/g,' ')
-    .replace(/^/,'<p>').replace(/$/,'</p>');
+function toHtml(t){
+  if(!t)return'';
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/(①|②|③|④|⑤|⑥)/g,'<span class="nm">$1</span>')
+    .replace(/\(([^)]{4,60}(?:년|부|청|원|연구소|연구원|DARPA|RUSI|CSIS|RAND|합참|국방부)[^)]*)\)/g,' <span class="cite">($1)</span>')
+    .replace(/\n{2,}/g,'</p><p>').replace(/\n/g,' ').replace(/^/,'<p>').replace(/$/,'</p>');
 }
-function renderSource(src){
-  if(!src)return'';
-  const lines=src.split(/\n/).map(l=>l.replace(/^\s*\d+[.)]\s*/,'').trim()).filter(l=>l.length>5);
-  if(!lines.length)return'';
-  const items=lines.map(line=>{
-    const q=encodeURIComponent(line.replace(/,/g,' '));
-    const esc=line.replace(/&/g,'&amp;').replace(/</g,'&lt;');
-    return '<div class="source-item"><span class="source-dot"></span><span class="source-item-text">'+esc+'</span><a class="source-search-btn" href="https://www.google.com/search?q='+q+'" target="_blank" rel="noopener">검색 ↗</a></div>';
-  }).join('');
-  return '<div class="card-footer"><div class="source-label">참고 자료</div><div class="source-list">'+items+'</div></div>';
-}
-function copyCard(cardId){
-  const card=document.getElementById(cardId);
-  const btn=card.querySelector('.copy-btn');
-  const lines=[];
-  const title=card.querySelector('.card-title');
-  const tags=card.querySelectorAll('.tag');
-  const sections=card.querySelectorAll('.section-block');
-  const footer=card.querySelector('.card-footer');
-  if(title){lines.push(title.textContent.trim());lines.push('');}
-  tags.forEach(t=>lines.push(t.textContent.trim()));
-  if(tags.length)lines.push('');
-  sections.forEach(sec=>{
-    const lbl=sec.querySelector('.section-label');
-    const txt=sec.querySelector('.section-text');
-    if(lbl)lines.push('[ '+lbl.textContent.trim()+' ]');
-    if(txt){lines.push(txt.textContent.trim());lines.push('');}
-  });
-  if(footer){
-    lines.push('[ 참고 자료 ]');
-    footer.querySelectorAll('.source-item-text').forEach(s=>lines.push('• '+s.textContent.trim()));
-  }
-  const text=lines.join('\n').trim();
-  const done=()=>{btn.classList.add('copied');btn.innerHTML='✓ 복사';setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='⎘ 복사';},2000);};
-  if(navigator.clipboard){navigator.clipboard.writeText(text).then(done).catch(()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();});}
-  else{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}
-}
-function acc(label,cls,content,open){
+function acc(lbl,cls,content,open){
   const id='a'+Math.random().toString(36).slice(2);
   return '<div class="acc-item">'+
-    '<button class="acc-btn" onclick="toggleAcc(\''+id+'\')">'+
-      '<span class="acc-label '+cls+'">'+label+'</span>'+
+    '<button class="acc-btn" onclick="tog(\''+id+'\')">'+
+      '<span class="acc-lbl '+cls+'">'+lbl+'</span>'+
       '<span class="acc-arrow'+(open?' open':'')+'" id="ar'+id+'">▼</span>'+
     '</button>'+
     '<div class="acc-body'+(open?' open':'')+'" id="'+id+'">'+toHtml(content)+'</div>'+
   '</div>';
 }
-function toggleAcc(id){
-  const body=document.getElementById(id);
-  const arrow=document.getElementById('ar'+id);
-  const isOpen=body.classList.contains('open');
-  body.classList.toggle('open',!isOpen);
-  arrow.classList.toggle('open',!isOpen);
+function tog(id){
+  const b=document.getElementById(id),a=document.getElementById('ar'+id),o=b.classList.contains('open');
+  b.classList.toggle('open',!o);a.classList.toggle('open',!o);
 }
-function renderCard(fullText,cardIndex){
+function renderSrc(src){
+  if(!src)return'';
+  const lines=src.split(/\n/).map(l=>l.replace(/^\s*\d+[.)]\s*/,'').trim()).filter(l=>l.length>5);
+  if(!lines.length)return'';
+  const items=lines.map(l=>{
+    const q=encodeURIComponent(l.replace(/,/g,' '));
+    const e=l.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+    return '<div class="src-item"><span class="src-dot"></span><span class="src-txt">'+e+'</span><a class="src-btn" href="https://www.google.com/search?q='+q+'" target="_blank">검색 ↗</a></div>';
+  }).join('');
+  return '<div class="src-box"><div class="src-label">참고 자료</div><div class="src-list">'+items+'</div></div>';
+}
+function copyCard(id){
+  const card=document.getElementById(id);
+  const btn=card.querySelector('.cbtn');
+  const lines=[];
+  const title=card.querySelector('.ctitle');
+  if(title){lines.push(title.textContent.trim());lines.push('');}
+  card.querySelectorAll('.acc-body').forEach(body=>{
+    const lbl=body.previousElementSibling?.querySelector('.acc-lbl');
+    if(lbl)lines.push('[ '+lbl.textContent.trim()+' ]');
+    lines.push(body.textContent.trim());lines.push('');
+  });
+  const srcBox=card.querySelector('.src-box');
+  if(srcBox){lines.push('[ 참고 자료 ]');srcBox.querySelectorAll('.src-txt').forEach(s=>lines.push('• '+s.textContent.trim()));}
+  const text=lines.join('\n').trim();
+  const done=()=>{btn.classList.add('ok');btn.innerHTML='✓ 복사됨';setTimeout(()=>{btn.classList.remove('ok');btn.innerHTML='⎘ 복사';},2200);};
+  if(navigator.clipboard){navigator.clipboard.writeText(text).then(done).catch(()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();});}
+  else{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}
+}
+function renderCard(fullText,idx){
   const s=parseBlock(fullText);
   const title=s['제목']||'';
   const type=s['유형']||'';
   const domain=s['분야']||'';
   const content=s['핵심내용']||s['핵심 내용']||'';
   const impl=s['전략적시사점']||s['전략적 시사점']||'';
-  const rdG=s['선진국rd']||s['선진국r&d']||s['선진국최신r&d방향']||s['선진국최신rd방향']||s['선진국rnd']||s['선진국r&d방향']||'';
-  const rdK=s['국내기획']||s['국내개발기획방향']||s['국내 기획']||s['국내개발기획']||'';
+  const rdG=s['선진국rd']||s['선진국r&d']||s['선진국최신r&d방향']||s['선진국rnd']||'';
+  const rdK=s['국내기획']||s['국내개발기획방향']||s['국내 기획']||'';
   const src=s['출처']||'';
-  const cardId='card-'+cardIndex;
-  const hasSections=content||impl||rdG||rdK;
-  const fallback=!hasSections?fullText.replace(/===자료\d+===/g,'').trim():'';
-  return '<div class="card" id="'+cardId+'">'+
+  const id='card-'+idx;
+  const hasSec=content||impl||rdG||rdK;
+  const fb=!hasSec?fullText.replace(/===자료\d+===/g,'').trim():'';
+  return '<div class="card" id="'+id+'">'+
     '<div class="card-head">'+
-      '<div class="card-head-left">'+
-        '<span class="card-num">자료 '+(cardIndex+1)+'</span>'+
+      '<div class="card-head-l">'+
+        '<span class="cnum">자료 '+(idx+1)+'</span>'+
         '<div class="tags">'+
-          (type?'<span class="tag tag-type">'+type+'</span>':'')+
-          (domain?'<span class="tag tag-domain">'+domain.slice(0,22)+'</span>':'')+
+          (type?'<span class="tag tt">'+type+'</span>':'')+
+          (domain?'<span class="tag td">'+domain.slice(0,22)+'</span>':'')+
         '</div>'+
       '</div>'+
-      '<button class="copy-btn" onclick="copyCard(\''+cardId+'\')">⎘ 복사</button>'+
+      '<button class="cbtn" onclick="copyCard(\''+id+'\')">⎘ 복사</button>'+
     '</div>'+
-    (title?'<div class="card-title">'+title+'</div>':'')+
+    (title?'<div class="ctitle">'+title+'</div>':'')+
     '<div>'+
-      (content?acc('핵심 내용','lbl-content',content,true):'')+
-      (impl?acc('전략적 시사점','lbl-impl',impl,false):'')+
-      (rdG?acc('선진국 최신 R&amp;D 방향','lbl-rd',rdG,false):'')+
-      (rdK?acc('국내 개발 기획 방향','lbl-korea',rdK,false):'')+
-      (fallback?acc('브리핑 내용','lbl-content',fallback,true):'')+
+      (content?acc('핵심 내용','lc',content,true):'')+
+      (impl?acc('전략적 시사점','li',impl,false):'')+
+      (rdG?acc('선진국 최신 R&amp;D 방향','lr',rdG,false):'')+
+      (rdK?acc('국내 개발 기획 방향','lk',rdK,false):'')+
+      (fb?acc('브리핑 내용','lc',fb,true):'')+
     '</div>'+
-    renderSource(src)+
+    renderSrc(src)+
   '</div>';
 }
-async function fetchBriefing(isNext){
+async function doFetch(isNext){
   const genBtn=document.getElementById('genBtn');
-  const nextBtn=document.getElementById('nextBtn');
-  genBtn.disabled=true;nextBtn.disabled=true;
-  setStatus('브리핑 생성 중 (15~20초)...',true);
+  const nxtBtn=document.getElementById('nxtBtn');
+  genBtn.disabled=true;nxtBtn.disabled=true;
+  setSt('브리핑 생성 중 (10~20초)...',true);
   try{
     const body={topic:cur};
-    if(isNext&&lastSubtopic)body.subtopic=lastSubtopic;
-    const res=await fetch('/api/briefing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...body, desktop:true})});
-    const raw=await res.text();
+    if(isNext&&lastSub)body.subtopic=lastSub;
+    const res=await fetch('/api/briefing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const rawText=await res.text();
     let data;
-    try{data=JSON.parse(raw);}catch(_){throw new Error('서버 오류 ('+res.status+'): '+raw.slice(0,120));}
+    try{data=JSON.parse(rawText);}catch(_){throw new Error('서버 오류 ('+res.status+'): '+rawText.slice(0,100));}
     if(!res.ok||data.error)throw new Error(data.error||'HTTP '+res.status);
     if(!data.text)throw new Error('빈 응답. 다시 시도해주세요.');
-    lastSubtopic=data.subtopic||'';
-    const cardIndex=sessionCards.length;
-    const fullText=data.text;
-    sessionCards.push(fullText);
-    const cardHtml=renderCard(fullText,cardIndex);
-    const output=document.getElementById('output');
+    lastSub=data.subtopic||'';
+    const idx=cards.length;
+    cards.push(data.text);
+    const out=document.getElementById('out');
     if(!isNext){
-      output.innerHTML='<div class="cards">'+cardHtml+'</div>';
+      out.innerHTML='<div class="cards">'+renderCard(data.text,idx)+'</div>';
     }else{
-      const cardsDiv=output.querySelector('.cards');
-      if(cardsDiv)cardsDiv.insertAdjacentHTML('beforeend',cardHtml);
-      else output.innerHTML='<div class="cards">'+cardHtml+'</div>';
-      setTimeout(()=>{document.getElementById('card-'+cardIndex)?.scrollIntoView({behavior:'smooth',block:'start'});},100);
+      const cd=out.querySelector('.cards');
+      if(cd)cd.insertAdjacentHTML('beforeend',renderCard(data.text,idx));
+      else out.innerHTML='<div class="cards">'+renderCard(data.text,idx)+'</div>';
+      setTimeout(()=>{document.getElementById('card-'+idx)?.scrollIntoView({behavior:'smooth',block:'start'});},100);
     }
-    const counter=document.getElementById('briefingCounter');
-    counter.classList.add('visible');
-    counter.textContent='이번 세션: '+sessionCards.length+'건 · '+cur+' 분야';
-    document.getElementById('nextBtn').classList.add('visible');
-    setStatus('브리핑 완료 — '+data.date+' · '+new Date().toLocaleTimeString('ko-KR'));
+    const ctr=document.getElementById('counter');
+    ctr.classList.add('show');
+    ctr.textContent='이번 세션: '+cards.length+'건 · '+cur+' 분야';
+    nxtBtn.classList.add('show');
+    setSt('브리핑 완료 — '+data.date+' · '+new Date().toLocaleTimeString('ko-KR'));
   }catch(e){
-    document.getElementById('output').innerHTML='<div class="error-box">오류: '+e.message+'</div>';
-    setStatus('오류 발생');
+    document.getElementById('out').innerHTML='<div class="err">오류: '+e.message+'</div>';
+    setSt('오류 발생');
   }
-  genBtn.disabled=false;nextBtn.disabled=false;
+  genBtn.disabled=false;nxtBtn.disabled=false;
 }
-function generateNew(){sessionCards=[];lastSubtopic='';document.getElementById('nextBtn').classList.remove('visible');fetchBriefing(false);}
-function generateNext(){fetchBriefing(true);}
+function genNew(){cards=[];lastSub='';document.getElementById('nxtBtn').classList.remove('show');doFetch(false);}
+function genNext(){doFetch(true);}
 </script>
 </body>
 </html>
