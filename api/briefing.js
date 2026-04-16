@@ -15,7 +15,7 @@ export default async function handler(request) {
   let topic = 'ai', subtopic = '';
   try { const b = await request.json(); topic = b.topic || 'ai'; subtopic = b.subtopic || ''; } catch (_) {}
 
-  const today = new Date().toLocaleDateString('ko-KR', { year:'numeric', month:'long', day:'numeric', weekday:'short' });
+  const today = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' });
 
   const TOPICS = {
     ai:'인공지능(AI) — 국방 AI 플랫폼, 자율 의사결정',
@@ -58,7 +58,6 @@ ${subtopicHint}
 4. 기관명, 자료명, 연도
 5. 기관명, 자료명, 연도`;
 
-  // Anthropic 스트리밍 API 호출
   const upstream = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -79,53 +78,50 @@ ${subtopicHint}
     return new Response(JSON.stringify({ error: err }), { status: upstream.status, headers: { ...cors, 'Content-Type': 'application/json' } });
   }
 
-  // 스트림을 받아서 텍스트 조각을 조합해 JSON으로 반환하는 TransformStream
+  const encoder = new TextEncoder();
   const { readable, writable } = new TransformStream();
   const writer = writable.getWriter();
-  const encoder = new TextEncoder();
 
   (async () => {
     const reader = upstream.body.getReader();
     const decoder = new TextDecoder();
     let fullText = '';
-
     try {
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split('\n');
-        for (const line of lines) {
-          if (!line.startsWith('data: ')) continue;
-          const data = line.slice(6).trim();
-          if (data === '[DONE]') continue;
+        for (const line of chunk.split('\n')) {
+          const trimmed = line.trim();
+          if (!trimmed.startsWith('data:')) continue;
+          const raw = trimmed.slice(5).trim();
+          if (raw === '[DONE]') continue;
           try {
-            const parsed = JSON.parse(data);
-            if (parsed.type === 'content_block_delta' && parsed.delta?.type === 'text_delta') {
-              fullText += parsed.delta.text;
-              // 중간 진행 상황 전송
-              await writer.write(encoder.encode(`data: ${JSON.stringify({ partial: parsed.delta.text })}\n\n`));
+            const evt = JSON.parse(raw);
+            if (evt.type === 'content_block_delta' && evt.delta?.type === 'text_delta') {
+              fullText += evt.delta.text;
+              // 진행 상황 알림 (글자 수)
+              await writer.write(encoder.encode('ping:' + fullText.length + '\n'));
             }
           } catch (_) {}
         }
       }
-      // 완성된 전체 텍스트 전송
+      // 완성된 텍스트를 BASE64로 인코딩해서 안전하게 전송
       const titleMatch = fullText.match(/\[제목\]\s*([^\n]+)/);
       const newSubtopic = titleMatch ? titleMatch[1].trim() : '';
-      await writer.write(encoder.encode(`data: ${JSON.stringify({ done: true, text: fullText, date: today, subtopic: newSubtopic })}\n\n`));
+      const payload = JSON.stringify({ date: today, subtopic: newSubtopic });
+      // 텍스트를 별도 줄로 구분해서 전송
+      await writer.write(encoder.encode('meta:' + payload + '\n'));
+      await writer.write(encoder.encode('text:' + btoa(encodeURIComponent(fullText)) + '\n'));
+      await writer.write(encoder.encode('done:\n'));
     } catch (e) {
-      await writer.write(encoder.encode(`data: ${JSON.stringify({ error: e.message })}\n\n`));
+      await writer.write(encoder.encode('error:' + e.message + '\n'));
     } finally {
       await writer.close();
     }
   })();
 
   return new Response(readable, {
-    headers: {
-      ...cors,
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
-      'X-Accel-Buffering': 'no',
-    },
+    headers: { ...cors, 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no' },
   });
 }
