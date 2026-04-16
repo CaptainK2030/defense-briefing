@@ -258,52 +258,13 @@ async function fetchBriefing(isNext){
     if(isNext&&lastSubtopic)body.subtopic=lastSubtopic;
 
     const res=await fetch('/api/briefing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    if(!res.ok){const e=await res.text();throw new Error('HTTP '+res.status+': '+e.slice(0,100));}
+    const data=await res.json();
+    if(!res.ok||data.error)throw new Error(data.error||'HTTP '+res.status);
+    if(!data.text)throw new Error('빈 응답. 다시 시도해주세요.');
 
-    const reader=res.body.getReader();
-    const decoder=new TextDecoder();
-    let buf='';
-    let meta=null;
-    let fullText='';
-    let isDone=false;
-    let charCount=0;
-
-    // hex 디코딩 함수
-    function fromHex(hex){
-      try{
-        const bytes=new Uint8Array(hex.match(/.{2}/g).map(h=>parseInt(h,16)));
-        return new TextDecoder().decode(bytes);
-      }catch(_){return '';}
-    }
-
-    while(true){
-      const {done,value}=await reader.read();
-      if(done)break;
-      buf+=decoder.decode(value,{stream:true});
-      const lines=buf.split('\n');
-      buf=lines.pop()||'';
-      for(const line of lines){
-        if(!line)continue;
-        const prefix=line[0];
-        const payload=line.slice(1);
-        if(prefix==='c'){
-          const chunk=fromHex(payload);
-          fullText+=chunk;
-          charCount+=chunk.length;
-          setStatus('생성 중... '+charCount+'자',true);
-        } else if(prefix==='m'){
-          try{meta=JSON.parse(fromHex(payload));}catch(_){}
-        } else if(prefix==='e'){
-          throw new Error(fromHex(payload)||'서버 오류');
-        } else if(prefix==='d'){
-          isDone=true;
-        }
-      }
-    }
-
-    if(!isDone||!fullText)throw new Error('응답 없음. 다시 시도해주세요.');
-    lastSubtopic=(meta&&meta.subtopic)||'';
+    lastSubtopic=data.subtopic||'';
     const cardIndex=sessionCards.length;
+    const fullText=data.text;
     sessionCards.push(fullText);
     const cardHtml=renderCard(fullText,cardIndex);
     const output=document.getElementById('output');
