@@ -240,37 +240,48 @@ async function doFetch(isNext){
   const genBtn=document.getElementById('genBtn');
   const nxtBtn=document.getElementById('nxtBtn');
   genBtn.disabled=true;nxtBtn.disabled=true;
-  setSt('브리핑 생성 중 (10~20초)...',true);
-  try{
-    const body={topic:cur};
-    if(isNext&&lastSub)body.subtopic=lastSub;
-    const res=await fetch('/api/briefing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    const rawText=await res.text();
-    let data;
-    try{data=JSON.parse(rawText);}catch(_){throw new Error('서버 오류 ('+res.status+'): '+rawText.slice(0,100));}
-    if(!res.ok||data.error)throw new Error(data.error||'HTTP '+res.status);
-    if(!data.text)throw new Error('빈 응답. 다시 시도해주세요.');
-    lastSub=data.subtopic||'';
-    const idx=cards.length;
-    cards.push(data.text);
-    const out=document.getElementById('out');
-    if(!isNext){
-      out.innerHTML='<div class="cards">'+renderCard(data.text,idx)+'</div>';
-    }else{
-      const cd=out.querySelector('.cards');
-      if(cd)cd.insertAdjacentHTML('beforeend',renderCard(data.text,idx));
-      else out.innerHTML='<div class="cards">'+renderCard(data.text,idx)+'</div>';
-      setTimeout(()=>{document.getElementById('card-'+idx)?.scrollIntoView({behavior:'smooth',block:'start'});},100);
-    }
-    const ctr=document.getElementById('counter');
-    ctr.classList.add('show');
-    ctr.textContent='이번 세션: '+cards.length+'건 · '+cur+' 분야';
-    nxtBtn.classList.add('show');
-    setSt('브리핑 완료 — '+data.date+' · '+new Date().toLocaleTimeString('ko-KR'));
-  }catch(e){
-    document.getElementById('out').innerHTML='<div class="err">오류: '+e.message+'</div>';
-    setSt('오류 발생');
+  const body={topic:cur};
+  if(isNext&&lastSub)body.subtopic=lastSub;
+  let data=null,lastErr='';
+  for(let attempt=1;attempt<=3;attempt++){
+    setSt('브리핑 생성 중'+(attempt>1?' — 재시도 '+attempt+'/3':'')+'...',true);
+    try{
+      const res=await fetch('/api/briefing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+      const rawText=await res.text();
+      let parsed;
+      try{parsed=JSON.parse(rawText);}catch(_){
+        lastErr='서버 오류 ('+res.status+')';
+        if(res.status===504||res.status===502){await new Promise(r=>setTimeout(r,300));continue;}
+        break;
+      }
+      if(res.status===504||res.status===502){lastErr='타임아웃';await new Promise(r=>setTimeout(r,300));continue;}
+      if(!res.ok||parsed.error){lastErr=parsed.error||'HTTP '+res.status;break;}
+      if(!parsed.text){lastErr='빈 응답';break;}
+      data=parsed;break;
+    }catch(e){lastErr=e.message;if(attempt<3)await new Promise(r=>setTimeout(r,300));}
   }
+  if(!data){
+    document.getElementById('out').innerHTML='<div class="err">오류: '+lastErr+'<br><small style="opacity:.6">버튼을 다시 눌러보세요.</small></div>';
+    setSt('오류 — 다시 시도해주세요');
+    genBtn.disabled=false;nxtBtn.disabled=false;return;
+  }
+  lastSub=data.subtopic||'';
+  const idx=cards.length;
+  cards.push(data.text);
+  const out=document.getElementById('out');
+  if(!isNext){
+    out.innerHTML='<div class="cards">'+renderCard(data.text,idx)+'</div>';
+  }else{
+    const cd=out.querySelector('.cards');
+    if(cd)cd.insertAdjacentHTML('beforeend',renderCard(data.text,idx));
+    else out.innerHTML='<div class="cards">'+renderCard(data.text,idx)+'</div>';
+    setTimeout(()=>{document.getElementById('card-'+idx)?.scrollIntoView({behavior:'smooth',block:'start'});},100);
+  }
+  const ctr=document.getElementById('counter');
+  ctr.classList.add('show');
+  ctr.textContent='이번 세션: '+cards.length+'건 · '+cur+' 분야';
+  nxtBtn.classList.add('show');
+  setSt('브리핑 완료 — '+data.date+' · '+new Date().toLocaleTimeString('ko-KR'));
   genBtn.disabled=false;nxtBtn.disabled=false;
 }
 function genNew(){cards=[];lastSub='';document.getElementById('nxtBtn').classList.remove('show');doFetch(false);}
