@@ -248,21 +248,46 @@ async function fetchBriefing(isNext){
   const genBtn=document.getElementById('genBtn');
   const nextBtn=document.getElementById('nextBtn');
   genBtn.disabled=true;nextBtn.disabled=true;
-  setStatus('심층 분석 중 (15~20초 소요)...',true);
+  setStatus('브리핑 생성 중...',true);
   try{
     const body={topic:cur};
     if(isNext&&lastSubtopic)body.subtopic=lastSubtopic;
-    const controller=new AbortController();
-    const timer=setTimeout(()=>controller.abort(),55000);
+
     const res=await fetch('/api/briefing',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(body),
-      signal:controller.signal,
     });
-    clearTimeout(timer);
     if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error||'HTTP '+res.status);}
-    const data=await res.json();
+
+    // 스트리밍으로 읽기
+    const reader=res.body.getReader();
+    const decoder=new TextDecoder();
+    let buffer='';
+    let data=null;
+    let charCount=0;
+
+    while(true){
+      const {done,value}=await reader.read();
+      if(done)break;
+      buffer+=decoder.decode(value,{stream:true});
+      const lines=buffer.split('\n\n');
+      buffer=lines.pop()||'';
+      for(const line of lines){
+        if(!line.startsWith('data: '))continue;
+        try{
+          const parsed=JSON.parse(line.slice(6));
+          if(parsed.partial){
+            charCount+=parsed.partial.length;
+            setStatus('생성 중... '+charCount+'자',true);
+          }
+          if(parsed.done){data=parsed;}
+          if(parsed.error){throw new Error(parsed.error);}
+        }catch(e){if(e.message&&!e.message.includes('JSON'))throw e;}
+      }
+    }
+
+    if(!data||!data.text)throw new Error('응답 없음. 다시 시도해주세요.');
     const block=splitBlock(data.text||'');
     if(!block||block.trim().length<30)throw new Error('응답 형식 오류. 다시 시도해주세요.');
     lastSubtopic=data.subtopic||'';
