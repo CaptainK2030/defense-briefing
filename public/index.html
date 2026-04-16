@@ -2,15 +2,11 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="국방브리핑">
-<meta name="theme-color" content="#0d0f14">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>국방 인텔리전스 브리핑</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#0d0f14;--bg2:#13161e;--bg3:#1a1e28;
   --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.15);
@@ -19,80 +15,84 @@
   --green:#4ade80;--amber:#fbbf24;--purple:#c084fc;--red:#f87171;
   --mono:'IBM Plex Mono',monospace;--sans:'Noto Sans KR',sans-serif;
 }
-html{font-size:16px;-webkit-text-size-adjust:100%}
+html{font-size:18px}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.75}
-header{border-bottom:1px solid var(--border);padding:0 1rem;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(13,15,20,0.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:100}
-.logo{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--accent);display:flex;align-items:center;gap:8px}
-.logo-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite}
+header{border-bottom:1px solid var(--border);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(13,15,20,0.96);backdrop-filter:blur(16px);z-index:100}
+.logo{font-family:var(--mono);font-size:13px;letter-spacing:.15em;color:var(--accent);display:flex;align-items:center;gap:10px}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-.header-date{font-family:var(--mono);font-size:10px;color:var(--text3)}
-main{max-width:720px;margin:0 auto;padding:1.25rem .875rem 4rem}
-.hero{margin-bottom:1.25rem}
-.hero-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--text3);margin-bottom:8px}
-.hero-title{font-size:clamp(22px,5.5vw,34px);font-weight:700;line-height:1.2;margin-bottom:6px}
-.hero-sub{font-size:13px;color:var(--text2);line-height:1.6;word-break:keep-all}
-.cost-bar{display:flex;align-items:center;gap:7px;margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--text3);flex-wrap:wrap}
-.cost-pill{padding:2px 8px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);border-radius:4px;color:var(--green)}
-.controls-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:1rem}
-.ctrl-label{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.12em;margin-bottom:10px;display:block}
-.tech-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:1rem}
-@media(min-width:480px){.tech-grid{grid-template-columns:repeat(5,1fr)}}
-.t-btn{font-family:var(--sans);font-size:13px;font-weight:500;padding:10px 4px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all .15s;text-align:center;line-height:1.3;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%}
-.t-btn .btn-num{font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:2px}
-.t-btn:active,.t-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent2)}
+.header-date{font-family:var(--mono);font-size:13px;color:var(--text3)}
+main{max-width:960px;margin:0 auto;padding:3rem 2rem 6rem}
+.hero{margin-bottom:3rem}
+.hero-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--text3);margin-bottom:14px}
+.hero-title{font-size:clamp(28px,3.5vw,40px);font-weight:700;line-height:1.15;margin-bottom:10px}
+.hero-sub{font-size:16px;color:var(--text2)}
+.cost-bar{display:flex;align-items:center;gap:10px;margin-top:12px;font-family:var(--mono);font-size:13px;color:var(--text3);flex-wrap:wrap}
+.cost-pill{padding:3px 10px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);border-radius:4px;color:var(--green)}
+.controls-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.5rem 1.75rem;margin-bottom:2.5rem}
+.ctrl-label{font-family:var(--mono);font-size:12px;color:var(--text3);letter-spacing:.14em;margin-bottom:14px;display:block}
+.tech-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1.25rem}
+.t-btn{font-family:var(--sans);font-size:14px;font-weight:500;padding:10px 8px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all .15s;text-align:center;line-height:1.35}
+.t-btn .btn-num{display:block;font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:3px}
+.t-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent2)}
 .t-btn.active{background:var(--accent2);border-color:var(--accent);color:var(--accent)}
 .t-btn.active .btn-num{color:#7ab5ff}
-.action-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.selected-label{font-size:12px;color:var(--text2);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.action-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.selected-label{font-size:15px;color:var(--text2)}
 .selected-label strong{color:var(--accent);font-weight:600}
-.btn-group{display:flex;gap:6px;flex-shrink:0}
-.gen-btn{font-family:var(--sans);font-size:14px;font-weight:600;padding:11px 18px;border-radius:9px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;transition:all .15s;white-space:nowrap;min-height:44px}
-.gen-btn:active:not(:disabled){background:var(--accent);color:#fff}
+.btn-group{display:flex;gap:8px}
+.gen-btn{font-family:var(--sans);font-size:16px;font-weight:600;padding:12px 28px;border-radius:9px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;transition:all .15s;white-space:nowrap}
+.gen-btn:hover:not(:disabled){background:var(--accent);color:#fff}
 .gen-btn:disabled{opacity:.3;cursor:not-allowed}
-.next-btn{font-family:var(--sans);font-size:14px;font-weight:600;padding:11px 14px;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap;display:none;min-height:44px}
-.next-btn:active:not(:disabled){border-color:var(--green);color:var(--green);background:rgba(74,222,128,.08)}
+.next-btn{font-family:var(--sans);font-size:16px;font-weight:600;padding:12px 20px;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap;display:none}
+.next-btn:hover:not(:disabled){border-color:var(--green);color:var(--green);background:rgba(74,222,128,.08)}
 .next-btn:disabled{opacity:.3;cursor:not-allowed}
 .next-btn.visible{display:block}
-.status{font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:.875rem;display:flex;align-items:center;gap:8px;min-height:20px}
-.spinner{width:11px;height:11px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+.status{font-family:var(--mono);font-size:13px;color:var(--text3);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px;min-height:22px}
+.spinner{width:13px;height:13px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
-.briefing-counter{display:none;font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:.875rem;padding:6px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:7px}
+.briefing-counter{display:none;font-family:var(--mono);font-size:12px;color:var(--text3);margin-bottom:1.25rem;padding:7px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px}
 .briefing-counter.visible{display:block}
-.empty{text-align:center;padding:3rem 1rem;border:1px dashed var(--border2);border-radius:12px;color:var(--text3);font-size:14px;line-height:2.2}
-.error-box{padding:1rem 1.25rem;background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.2);border-radius:10px;color:var(--red);font-family:var(--mono);font-size:12px;line-height:1.7;word-break:break-all}
-.cards{display:flex;flex-direction:column;gap:1.25rem}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.card-head{padding:.75rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--bg3);flex-wrap:wrap}
-.card-head-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.card-num{font-family:var(--mono);font-size:11px;color:var(--text3)}
-.tags{display:flex;gap:5px;flex-wrap:wrap}
-.tag{font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid}
+.empty{text-align:center;padding:4rem 1rem;border:1px dashed var(--border2);border-radius:14px;color:var(--text3);font-size:16px;line-height:2.2}
+.error-box{padding:1.25rem 1.5rem;background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.2);border-radius:10px;color:var(--red);font-family:var(--mono);font-size:14px;line-height:1.7}
+.cards{display:flex;flex-direction:column;gap:2.5rem}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.card-head{padding:1rem 1.75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--bg3);flex-wrap:wrap}
+.card-head-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.card-num{font-family:var(--mono);font-size:12px;color:var(--text3)}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:4px;border:1px solid}
 .tag-type{border-color:rgba(91,159,255,.35);color:var(--accent);background:rgba(91,159,255,.08)}
 .tag-domain{border-color:rgba(74,222,128,.35);color:var(--green);background:rgba(74,222,128,.08)}
-.copy-btn{font-family:var(--mono);font-size:11px;padding:5px 11px;border-radius:6px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;transition:all .15s;white-space:nowrap;min-height:30px}
-.copy-btn:active{border-color:var(--accent);color:var(--accent);background:var(--accent2)}
+.copy-btn{font-family:var(--mono);font-size:12px;padding:6px 13px;border-radius:7px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;transition:all .15s}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent2)}
 .copy-btn.copied{border-color:var(--green);color:var(--green);background:rgba(74,222,128,.08)}
-.card-title{font-size:clamp(15px,3.5vw,19px);font-weight:700;color:var(--text);line-height:1.4;padding:1rem 1rem 0;word-break:keep-all}
-.card-body{padding:.25rem 1rem 1.25rem}
-.section-block{margin-top:1.25rem}
-.section-label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;padding:4px 9px;border-radius:4px;display:inline-block;margin-bottom:9px;font-weight:500}
+.card-title{font-size:20px;font-weight:700;color:var(--text);line-height:1.4;padding:1.5rem 1.75rem 0;word-break:keep-all}
+.card-body{padding:.5rem 1.75rem 1.75rem}
+.section-block{margin-top:1.75rem}
+.section-label{font-family:var(--mono);font-size:11px;letter-spacing:.12em;padding:5px 12px;border-radius:5px;display:inline-block;margin-bottom:12px;font-weight:500}
 .lbl-content{background:rgba(91,159,255,.1);color:#7ab5ff;border:1px solid rgba(91,159,255,.25)}
 .lbl-impl{background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25)}
 .lbl-rd{background:rgba(251,191,36,.1);color:#fbbf24;border:1px solid rgba(251,191,36,.25)}
 .lbl-korea{background:rgba(192,132,252,.1);color:#c084fc;border:1px solid rgba(192,132,252,.25)}
-.section-text{font-size:clamp(14px,3vw,16px);color:var(--text2);line-height:1.9;word-break:keep-all}
-.section-text p{margin-bottom:.75rem}
+.section-text{font-size:16px;color:var(--text2);line-height:2.0;word-break:keep-all}
+.section-text p{margin-bottom:.85rem}
 .section-text p:last-child{margin-bottom:0}
 .num-marker{color:var(--accent);font-weight:700}
-.cite{font-size:12px;color:var(--text3);font-family:var(--mono)}
-.card-footer{border-top:1px solid var(--border);padding:.875rem 1rem;background:var(--bg3)}
-.source-label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--text3);margin-bottom:8px}
+.cite{font-size:13px;color:var(--text3);font-family:var(--mono)}
+.card-footer{border-top:1px solid var(--border);padding:1rem 1.75rem;background:var(--bg3)}
+.source-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--text3);margin-bottom:8px}
 .source-list{display:flex;flex-direction:column;gap:6px}
-.source-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text3);line-height:1.6}
+.source-item{display:flex;align-items:flex-start;gap:8px;font-size:14px;color:var(--text3);line-height:1.6}
 .source-dot{width:4px;height:4px;border-radius:50%;background:var(--text3);flex-shrink:0;margin-top:9px}
 .source-item-text{flex:1;word-break:keep-all}
-.source-search-btn{flex-shrink:0;font-family:var(--mono);font-size:11px;padding:4px 9px;border-radius:4px;border:1px solid rgba(91,159,255,.3);color:var(--accent);background:rgba(91,159,255,.06);text-decoration:none;white-space:nowrap;min-height:28px;display:flex;align-items:center}
-.source-search-btn:active{background:rgba(91,159,255,.2)}
+.source-search-btn{flex-shrink:0;font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:4px;border:1px solid rgba(91,159,255,.3);color:var(--accent);background:rgba(91,159,255,.06);text-decoration:none;white-space:nowrap}
+.source-search-btn:hover{background:rgba(91,159,255,.18)}
+.mobile-link{display:none}
+@media(max-width:768px){
+  .mobile-link{display:block;text-align:center;margin-bottom:1rem;padding:.75rem;background:var(--bg2);border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text2)}
+  .mobile-link a{color:var(--accent);text-decoration:none;font-weight:600}
+}
 </style>
 </head>
 <body>
@@ -101,11 +101,12 @@ main{max-width:720px;margin:0 auto;padding:1.25rem .875rem 4rem}
   <div class="header-date" id="headerDate"></div>
 </header>
 <main>
+  <div class="mobile-link">스마트폰 최적화 버전: <a href="/m">defense-briefing.vercel.app/m</a></div>
   <div class="hero">
     <div class="hero-eyebrow">국방 오피니언 리더 보좌 시스템</div>
     <h1 class="hero-title">국방 인텔리전스<br>브리핑 에이전트</h1>
     <div class="hero-sub">방위사업청 「'25~'39 국방기술기획서」 10대 전략기술 · 박사급 심층 분석</div>
-    <div class="cost-bar"><span class="cost-pill">Vercel 무료</span><span>API 1회 약 ₩30</span></div>
+    <div class="cost-bar"><span class="cost-pill">Vercel 호스팅 무료</span><span>Claude API: 생성 1회당 약 ₩30 · 월 30회 기준 약 ₩900</span></div>
   </div>
   <div class="controls-wrap">
     <span class="ctrl-label">방위사업청 10대 국방전략기술 분야</span>
@@ -122,17 +123,17 @@ main{max-width:720px;margin:0 auto;padding:1.25rem .875rem 4rem}
       <button class="t-btn" data-topic="wmd" data-label="⑩ WMD 대응"><span class="btn-num">⑩ WMD</span>WMD 대응</button>
     </div>
     <div class="action-row">
-      <div class="selected-label">선택: <strong id="selectedLabel">① 인공지능(AI)</strong></div>
+      <div class="selected-label">선택된 분야: <strong id="selectedLabel">① 인공지능(AI)</strong></div>
       <div class="btn-group">
-        <button class="next-btn" id="nextBtn" onclick="generateNext()">다음 ↻</button>
-        <button class="gen-btn" id="genBtn" onclick="generateNew()">생성 ↗</button>
+        <button class="next-btn" id="nextBtn" onclick="generateNext()">다음 자료 ↻</button>
+        <button class="gen-btn" id="genBtn" onclick="generateNew()">브리핑 생성 ↗</button>
       </div>
     </div>
   </div>
   <div class="briefing-counter" id="briefingCounter"></div>
-  <div class="status" id="status">분야 선택 후 생성 버튼을 누르세요.</div>
+  <div class="status" id="status">분야를 선택하고 브리핑 생성 버튼을 누르세요.</div>
   <div id="output">
-    <div class="empty">10대 전략기술 분야를 선택하고<br>브리핑 생성을 누르세요<br><span style="font-size:13px;color:var(--text3)">자료 1건씩 · 박사급 심층 분석 · 인용 근거</span></div>
+    <div class="empty">10대 전략기술 분야를 선택하고 브리핑 생성을 누르세요<br><span style="font-size:14px;color:var(--text3)">자료 1건씩 · 박사급 심층 분석 · 인용 근거 · 참고 자료 구글 검색</span></div>
   </div>
 </main>
 <script>
@@ -147,13 +148,7 @@ document.querySelectorAll('.t-btn').forEach(b=>{
   });
 });
 function setStatus(msg,loading=false){
-  document.getElementById('status').innerHTML=loading
-    ?'<span class="spinner"></span><span style="color:#5b9fff">'+msg+'</span>'
-    :'<span>'+msg+'</span>';
-}
-function splitBlock(text){
-  const parts=text.split(/={2,}자료\s*\d+={2,}/i);
-  return parts.find(p=>p.trim().length>30)||text;
+  document.getElementById('status').innerHTML=loading?'<span class="spinner"></span><span style="color:#5b9fff">'+msg+'</span>':'<span>'+msg+'</span>';
 }
 function parseBlock(block){
   const result={};
@@ -217,22 +212,21 @@ function renderCard(fullText,cardIndex){
   const title=s['제목']||'';
   const type=s['유형']||'';
   const domain=s['분야']||'';
-  const content=s['핵심내용']||s['핵심 내용']||s['핵심내용:']||'';
-  const impl=s['전략적시사점']||s['전략적 시사점']||s['전략적시사점:']||'';
+  const content=s['핵심내용']||s['핵심 내용']||'';
+  const impl=s['전략적시사점']||s['전략적 시사점']||'';
   const rdG=s['선진국rd']||s['선진국r&d']||s['선진국최신r&d방향']||s['선진국최신rd방향']||s['선진국rnd']||s['선진국r&d방향']||'';
   const rdK=s['국내기획']||s['국내개발기획방향']||s['국내 기획']||s['국내개발기획']||'';
   const src=s['출처']||'';
   const cardId='card-'+cardIndex;
-  // 섹션 파싱 실패 시 원문 표시
-  const hasSections = content||impl||rdG||rdK;
-  const fallbackText = !hasSections ? fullText.replace(/===자료\d+===/g,'').trim() : '';
+  const hasSections=content||impl||rdG||rdK;
+  const fallback=!hasSections?fullText.replace(/===자료\d+===/g,'').trim():'';
   return '<div class="card" id="'+cardId+'">'+
     '<div class="card-head">'+
       '<div class="card-head-left">'+
         '<span class="card-num">자료 '+(cardIndex+1)+'</span>'+
         '<div class="tags">'+
           (type?'<span class="tag tag-type">'+type+'</span>':'')+
-          (domain?'<span class="tag tag-domain">'+domain.slice(0,20)+'</span>':'')+
+          (domain?'<span class="tag tag-domain">'+domain.slice(0,22)+'</span>':'')+
         '</div>'+
       '</div>'+
       '<button class="copy-btn" onclick="copyCard(\''+cardId+'\')">⎘ 복사</button>'+
@@ -243,7 +237,7 @@ function renderCard(fullText,cardIndex){
       (impl?'<div class="section-block"><div class="section-label lbl-impl">전략적 시사점</div><div class="section-text">'+toHtml(impl)+'</div></div>':'')+
       (rdG?'<div class="section-block"><div class="section-label lbl-rd">선진국 최신 R&amp;D 방향</div><div class="section-text">'+toHtml(rdG)+'</div></div>':'')+
       (rdK?'<div class="section-block"><div class="section-label lbl-korea">국내 개발 기획 방향</div><div class="section-text">'+toHtml(rdK)+'</div></div>':'')+
-      (fallbackText?'<div class="section-block"><div class="section-label lbl-content">브리핑 내용</div><div class="section-text">'+toHtml(fallbackText)+'</div></div>':'')+
+      (fallback?'<div class="section-block"><div class="section-label lbl-content">브리핑 내용</div><div class="section-text">'+toHtml(fallback)+'</div></div>':'')+
     '</div>'+
     renderSource(src)+
   '</div>';
@@ -256,12 +250,10 @@ async function fetchBriefing(isNext){
   try{
     const body={topic:cur};
     if(isNext&&lastSubtopic)body.subtopic=lastSubtopic;
-
     const res=await fetch('/api/briefing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     const data=await res.json();
     if(!res.ok||data.error)throw new Error(data.error||'HTTP '+res.status);
     if(!data.text)throw new Error('빈 응답. 다시 시도해주세요.');
-
     lastSubtopic=data.subtopic||'';
     const cardIndex=sessionCards.length;
     const fullText=data.text;
@@ -274,20 +266,16 @@ async function fetchBriefing(isNext){
       const cardsDiv=output.querySelector('.cards');
       if(cardsDiv)cardsDiv.insertAdjacentHTML('beforeend',cardHtml);
       else output.innerHTML='<div class="cards">'+cardHtml+'</div>';
-      setTimeout(()=>{
-        const newCard=document.getElementById('card-'+cardIndex);
-        if(newCard)newCard.scrollIntoView({behavior:'smooth',block:'start'});
-      },100);
+      setTimeout(()=>{document.getElementById('card-'+cardIndex)?.scrollIntoView({behavior:'smooth',block:'start'});},100);
     }
     const counter=document.getElementById('briefingCounter');
     counter.classList.add('visible');
-    counter.textContent='이번 세션: '+sessionCards.length+'건 생성 · '+cur+' 분야';
+    counter.textContent='이번 세션: '+sessionCards.length+'건 · '+cur+' 분야';
     document.getElementById('nextBtn').classList.add('visible');
     setStatus('브리핑 완료 — '+data.date+' · '+new Date().toLocaleTimeString('ko-KR'));
   }catch(e){
-    const msg=e.name==='AbortError'?'시간 초과. 다시 시도해주세요.':e.message;
-    if(!isNext)document.getElementById('output').innerHTML='<div class="error-box">오류: '+msg+'</div>';
-    setStatus('오류: '+msg);
+    document.getElementById('output').innerHTML='<div class="error-box">오류: '+e.message+'</div>';
+    setStatus('오류 발생');
   }
   genBtn.disabled=false;nextBtn.disabled=false;
 }
