@@ -212,17 +212,20 @@ function copyCard(cardId){
   if(navigator.clipboard){navigator.clipboard.writeText(text).then(done).catch(()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();});}
   else{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}
 }
-function renderCard(block,cardIndex){
-  const s=parseBlock(block);
+function renderCard(fullText,cardIndex){
+  const s=parseBlock(fullText);
   const title=s['제목']||'';
   const type=s['유형']||'';
   const domain=s['분야']||'';
-  const content=s['핵심내용']||s['핵심 내용']||'';
-  const impl=s['전략적시사점']||s['전략적 시사점']||'';
-  const rdG=s['선진국rd']||s['선진국r&d']||s['선진국최신r&d방향']||s['선진국최신rd방향']||'';
-  const rdK=s['국내기획']||s['국내개발기획방향']||'';
+  const content=s['핵심내용']||s['핵심 내용']||s['핵심내용:']||'';
+  const impl=s['전략적시사점']||s['전략적 시사점']||s['전략적시사점:']||'';
+  const rdG=s['선진국rd']||s['선진국r&d']||s['선진국최신r&d방향']||s['선진국최신rd방향']||s['선진국rnd']||s['선진국r&d방향']||'';
+  const rdK=s['국내기획']||s['국내개발기획방향']||s['국내 기획']||s['국내개발기획']||'';
   const src=s['출처']||'';
   const cardId='card-'+cardIndex;
+  // 섹션 파싱 실패 시 원문 표시
+  const hasSections = content||impl||rdG||rdK;
+  const fallbackText = !hasSections ? fullText.replace(/===자료\d+===/g,'').trim() : '';
   return '<div class="card" id="'+cardId+'">'+
     '<div class="card-head">'+
       '<div class="card-head-left">'+
@@ -240,6 +243,7 @@ function renderCard(block,cardIndex){
       (impl?'<div class="section-block"><div class="section-label lbl-impl">전략적 시사점</div><div class="section-text">'+toHtml(impl)+'</div></div>':'')+
       (rdG?'<div class="section-block"><div class="section-label lbl-rd">선진국 최신 R&amp;D 방향</div><div class="section-text">'+toHtml(rdG)+'</div></div>':'')+
       (rdK?'<div class="section-block"><div class="section-label lbl-korea">국내 개발 기획 방향</div><div class="section-text">'+toHtml(rdK)+'</div></div>':'')+
+      (fallbackText?'<div class="section-block"><div class="section-label lbl-content">브리핑 내용</div><div class="section-text">'+toHtml(fallbackText)+'</div></div>':'')+
     '</div>'+
     renderSource(src)+
   '</div>';
@@ -253,47 +257,43 @@ async function fetchBriefing(isNext){
     const body={topic:cur};
     if(isNext&&lastSubtopic)body.subtopic=lastSubtopic;
 
-    const res=await fetch('/api/briefing',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(body),
-    });
-    if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error||'HTTP '+res.status);}
+    const res=await fetch('/api/briefing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!res.ok){const e=await res.text();throw new Error('HTTP '+res.status+': '+e.slice(0,100));}
 
-    // 스트리밍으로 읽기
     const reader=res.body.getReader();
     const decoder=new TextDecoder();
-    let buffer='';
-    let data=null;
-    let charCount=0;
+    let buf='';
+    let meta=null;
+    let fullText='';
+    let isDone=false;
 
     while(true){
       const {done,value}=await reader.read();
       if(done)break;
-      buffer+=decoder.decode(value,{stream:true});
-      const lines=buffer.split('\n\n');
-      buffer=lines.pop()||'';
+      buf+=decoder.decode(value,{stream:true});
+      const lines=buf.split('\n');
+      buf=lines.pop()||'';
       for(const line of lines){
-        if(!line.startsWith('data: '))continue;
-        try{
-          const parsed=JSON.parse(line.slice(6));
-          if(parsed.partial){
-            charCount+=parsed.partial.length;
-            setStatus('생성 중... '+charCount+'자',true);
-          }
-          if(parsed.done){data=parsed;}
-          if(parsed.error){throw new Error(parsed.error);}
-        }catch(e){if(e.message&&!e.message.includes('JSON'))throw e;}
+        if(line.startsWith('ping:')){
+          setStatus('생성 중... '+line.slice(5)+'자',true);
+        } else if(line.startsWith('meta:')){
+          try{meta=JSON.parse(line.slice(5));}catch(_){}
+        } else if(line.startsWith('text:')){
+          try{fullText=decodeURIComponent(atob(line.slice(5)));}catch(_){fullText=line.slice(5);}
+        } else if(line.startsWith('error:')){
+          throw new Error(line.slice(6));
+        } else if(line.startsWith('done:')){
+          isDone=true;
+        }
       }
     }
 
-    if(!data||!data.text)throw new Error('응답 없음. 다시 시도해주세요.');
-    const block=splitBlock(data.text||'');
-    if(!block||block.trim().length<30)throw new Error('응답 형식 오류. 다시 시도해주세요.');
-    lastSubtopic=data.subtopic||'';
+    if(!isDone||!fullText)throw new Error('응답 없음. 다시 시도해주세요.');
+    lastSubtopic=(meta&&meta.subtopic)||'';
+    const date=(meta&&meta.date)||'';
     const cardIndex=sessionCards.length;
-    sessionCards.push(block);
-    const cardHtml=renderCard(block,cardIndex);
+    sessionCards.push(fullText);
+    const cardHtml=renderCard(fullText,cardIndex);
     const output=document.getElementById('output');
     if(!isNext){
       output.innerHTML='<div class="cards">'+cardHtml+'</div>';
