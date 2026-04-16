@@ -88,6 +88,18 @@ main{max-width:960px;margin:0 auto;padding:3rem 2rem 6rem}
 .source-item-text{flex:1;word-break:keep-all}
 .source-search-btn{flex-shrink:0;font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:4px;border:1px solid rgba(91,159,255,.3);color:var(--accent);background:rgba(91,159,255,.06);text-decoration:none;white-space:nowrap}
 .source-search-btn:hover{background:rgba(91,159,255,.18)}
+/* 아코디언 */
+.acc-item{border-bottom:1px solid var(--border)}
+.acc-item:last-child{border-bottom:none}
+.acc-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:1rem 1.75rem;background:transparent;border:none;cursor:pointer;text-align:left;gap:10px;transition:background .15s}
+.acc-btn:hover{background:rgba(255,255,255,.03)}
+.acc-label{font-family:var(--mono);font-size:11px;letter-spacing:.12em;padding:5px 12px;border-radius:5px;font-weight:500}
+.acc-arrow{font-size:12px;color:var(--text3);transition:transform .2s;flex-shrink:0}
+.acc-arrow.open{transform:rotate(180deg)}
+.acc-body{font-size:16px;color:var(--text2);line-height:2.0;padding:0 1.75rem 1.25rem;display:none;word-break:keep-all}
+.acc-body.open{display:block}
+.acc-body p{margin-bottom:.85rem}
+.acc-body p:last-child{margin-bottom:0}
 .mobile-link{display:none}
 @media(max-width:768px){
   .mobile-link{display:block;text-align:center;margin-bottom:1rem;padding:.75rem;background:var(--bg2);border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text2)}
@@ -207,6 +219,23 @@ function copyCard(cardId){
   if(navigator.clipboard){navigator.clipboard.writeText(text).then(done).catch(()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();});}
   else{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}
 }
+function acc(label,cls,content,open){
+  const id='a'+Math.random().toString(36).slice(2);
+  return '<div class="acc-item">'+
+    '<button class="acc-btn" onclick="toggleAcc(\''+id+'\')">'+
+      '<span class="acc-label '+cls+'">'+label+'</span>'+
+      '<span class="acc-arrow'+(open?' open':'')+'" id="ar'+id+'">▼</span>'+
+    '</button>'+
+    '<div class="acc-body'+(open?' open':'')+'" id="'+id+'">'+toHtml(content)+'</div>'+
+  '</div>';
+}
+function toggleAcc(id){
+  const body=document.getElementById(id);
+  const arrow=document.getElementById('ar'+id);
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  arrow.classList.toggle('open',!isOpen);
+}
 function renderCard(fullText,cardIndex){
   const s=parseBlock(fullText);
   const title=s['제목']||'';
@@ -232,12 +261,12 @@ function renderCard(fullText,cardIndex){
       '<button class="copy-btn" onclick="copyCard(\''+cardId+'\')">⎘ 복사</button>'+
     '</div>'+
     (title?'<div class="card-title">'+title+'</div>':'')+
-    '<div class="card-body">'+
-      (content?'<div class="section-block"><div class="section-label lbl-content">핵심 내용</div><div class="section-text">'+toHtml(content)+'</div></div>':'')+
-      (impl?'<div class="section-block"><div class="section-label lbl-impl">전략적 시사점</div><div class="section-text">'+toHtml(impl)+'</div></div>':'')+
-      (rdG?'<div class="section-block"><div class="section-label lbl-rd">선진국 최신 R&amp;D 방향</div><div class="section-text">'+toHtml(rdG)+'</div></div>':'')+
-      (rdK?'<div class="section-block"><div class="section-label lbl-korea">국내 개발 기획 방향</div><div class="section-text">'+toHtml(rdK)+'</div></div>':'')+
-      (fallback?'<div class="section-block"><div class="section-label lbl-content">브리핑 내용</div><div class="section-text">'+toHtml(fallback)+'</div></div>':'')+
+    '<div>'+
+      (content?acc('핵심 내용','lbl-content',content,true):'')+
+      (impl?acc('전략적 시사점','lbl-impl',impl,false):'')+
+      (rdG?acc('선진국 최신 R&amp;D 방향','lbl-rd',rdG,false):'')+
+      (rdK?acc('국내 개발 기획 방향','lbl-korea',rdK,false):'')+
+      (fallback?acc('브리핑 내용','lbl-content',fallback,true):'')+
     '</div>'+
     renderSource(src)+
   '</div>';
@@ -246,11 +275,11 @@ async function fetchBriefing(isNext){
   const genBtn=document.getElementById('genBtn');
   const nextBtn=document.getElementById('nextBtn');
   genBtn.disabled=true;nextBtn.disabled=true;
-  setStatus('브리핑 생성 중...',true);
+  setStatus('브리핑 생성 중 (Sonnet · 20~25초)...',true);
   try{
     const body={topic:cur};
     if(isNext&&lastSubtopic)body.subtopic=lastSubtopic;
-    const res=await fetch('/api/briefing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const res=await fetch('/api/briefing-desktop',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     const data=await res.json();
     if(!res.ok||data.error)throw new Error(data.error||'HTTP '+res.status);
     if(!data.text)throw new Error('빈 응답. 다시 시도해주세요.');
