@@ -90,8 +90,8 @@ ${subtopicHint}
 5. 기관명, 자료명, 연도
 6. 기관명, 자료명, 연도`;
 
-  const prompt = desktop ? desktopPrompt : mobilePrompt;
-  const maxTokens = desktop ? 2000 : 2000;
+  const prompt = mobilePrompt;
+  const maxTokens = 2000;
 
   try {
     const upstream = await fetch('https://api.anthropic.com/v1/messages', {
