@@ -67,7 +67,7 @@ ${subtopicHint}
       headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 1800,
+        max_tokens: 2800,
         stream: true,
         messages: [{ role: 'user', content: prompt }],
       }),
