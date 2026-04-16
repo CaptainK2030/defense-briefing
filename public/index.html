@@ -6,7 +6,7 @@
 <title>국방 인텔리전스 브리핑</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
 :root {
   --bg:#0d0f14; --bg2:#13161e; --bg3:#1a1e28;
   --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.15);
@@ -15,7 +15,7 @@
   --green:#4ade80; --amber:#fbbf24; --purple:#c084fc; --red:#f87171;
   --mono:'IBM Plex Mono',monospace; --sans:'Noto Sans KR',sans-serif;
 }
-html { font-size: 18px; }
+html { font-size:18px; }
 body { background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.75; }
 header { border-bottom:1px solid var(--border); padding:0 2rem; height:64px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; background:rgba(13,15,20,0.96); backdrop-filter:blur(16px); z-index:100; }
 .logo { font-family:var(--mono); font-size:13px; letter-spacing:0.15em; color:var(--accent); display:flex; align-items:center; gap:10px; }
@@ -23,61 +23,72 @@ header { border-bottom:1px solid var(--border); padding:0 2rem; height:64px; dis
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.25} }
 .header-date { font-family:var(--mono); font-size:13px; color:var(--text3); }
 main { max-width:960px; margin:0 auto; padding:3rem 2rem 6rem; }
-.hero { margin-bottom:3rem; }
-.hero-eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:0.22em; color:var(--text3); margin-bottom:14px; }
-.hero-title { font-size:clamp(30px,4.5vw,42px); font-weight:700; line-height:1.15; margin-bottom:12px; }
-.hero-sub { font-size:16px; color:var(--text2); }
-.cost-bar { display:flex; align-items:center; gap:10px; margin-top:14px; font-family:var(--mono); font-size:13px; color:var(--text3); flex-wrap:wrap; }
-.cost-pill { padding:4px 12px; background:rgba(74,222,128,0.1); border:1px solid rgba(74,222,128,0.25); border-radius:5px; color:var(--green); font-size:12px; }
-.controls-wrap { background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:1.5rem 1.75rem; margin-bottom:2.5rem; }
-.ctrl-label { font-family:var(--mono); font-size:12px; color:var(--text3); letter-spacing:0.14em; margin-bottom:14px; display:block; }
-.tech-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:1.25rem; }
-.t-btn { font-family:var(--sans); font-size:14px; font-weight:500; padding:10px 8px; border-radius:8px; border:1px solid var(--border2); background:var(--bg3); color:var(--text2); cursor:pointer; transition:all 0.15s; text-align:center; line-height:1.35; }
-.t-btn .btn-num { display:block; font-family:var(--mono); font-size:10px; color:var(--text3); margin-bottom:3px; }
+.hero { margin-bottom:2.5rem; }
+.hero-eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:0.22em; color:var(--text3); margin-bottom:12px; }
+.hero-title { font-size:clamp(28px,4vw,40px); font-weight:700; line-height:1.15; margin-bottom:10px; }
+.hero-sub { font-size:15px; color:var(--text2); }
+.cost-bar { display:flex; align-items:center; gap:10px; margin-top:12px; font-family:var(--mono); font-size:12px; color:var(--text3); flex-wrap:wrap; }
+.cost-pill { padding:3px 10px; background:rgba(74,222,128,0.1); border:1px solid rgba(74,222,128,0.25); border-radius:4px; color:var(--green); }
+
+.controls-wrap { background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:1.5rem 1.75rem; margin-bottom:2rem; }
+.ctrl-label { font-family:var(--mono); font-size:12px; color:var(--text3); letter-spacing:0.14em; margin-bottom:12px; display:block; }
+.tech-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:7px; margin-bottom:1.25rem; }
+.t-btn { font-family:var(--sans); font-size:14px; font-weight:500; padding:9px 6px; border-radius:8px; border:1px solid var(--border2); background:var(--bg3); color:var(--text2); cursor:pointer; transition:all 0.15s; text-align:center; line-height:1.3; }
+.t-btn .btn-num { display:block; font-family:var(--mono); font-size:10px; color:var(--text3); margin-bottom:2px; }
 .t-btn:hover { border-color:var(--accent); color:var(--accent); background:var(--accent2); }
 .t-btn.active { background:var(--accent2); border-color:var(--accent); color:var(--accent); }
 .t-btn.active .btn-num { color:#7ab5ff; }
-.bottom-row { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.action-row { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
 .selected-label { font-size:15px; color:var(--text2); }
 .selected-label strong { color:var(--accent); font-weight:600; }
-.gen-btn { font-family:var(--sans); font-size:16px; font-weight:600; padding:13px 32px; border-radius:9px; border:1px solid var(--accent); background:var(--accent2); color:var(--accent); cursor:pointer; transition:all 0.15s; white-space:nowrap; }
+.btn-group { display:flex; gap:8px; flex-wrap:wrap; }
+.gen-btn { font-family:var(--sans); font-size:15px; font-weight:600; padding:11px 28px; border-radius:9px; border:1px solid var(--accent); background:var(--accent2); color:var(--accent); cursor:pointer; transition:all 0.15s; white-space:nowrap; }
 .gen-btn:hover:not(:disabled) { background:var(--accent); color:#fff; }
 .gen-btn:disabled { opacity:0.3; cursor:not-allowed; }
-.status { font-family:var(--mono); font-size:13px; color:var(--text3); margin-bottom:2rem; display:flex; align-items:center; gap:10px; min-height:24px; }
+.next-btn { font-family:var(--sans); font-size:15px; font-weight:600; padding:11px 22px; border-radius:9px; border:1px solid var(--border2); background:transparent; color:var(--text2); cursor:pointer; transition:all 0.15s; white-space:nowrap; display:none; }
+.next-btn:hover:not(:disabled) { border-color:var(--green); color:var(--green); background:rgba(74,222,128,0.08); }
+.next-btn:disabled { opacity:0.3; cursor:not-allowed; }
+.next-btn.visible { display:block; }
+
+.status { font-family:var(--mono); font-size:13px; color:var(--text3); margin-bottom:1.5rem; display:flex; align-items:center; gap:10px; min-height:22px; }
 .spinner { width:13px; height:13px; border:2px solid var(--border2); border-top-color:var(--accent); border-radius:50%; animation:spin 0.7s linear infinite; flex-shrink:0; }
 @keyframes spin { to { transform:rotate(360deg); } }
+.briefing-counter { display:none; font-family:var(--mono); font-size:12px; color:var(--text3); margin-bottom:1.25rem; padding:8px 14px; background:var(--bg2); border:1px solid var(--border); border-radius:8px; }
+.briefing-counter.visible { display:block; }
+
 .empty { text-align:center; padding:4rem 1rem; border:1px dashed var(--border2); border-radius:14px; color:var(--text3); font-size:16px; line-height:2.2; }
 .error-box { padding:1.25rem 1.5rem; background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.2); border-radius:10px; color:var(--red); font-family:var(--mono); font-size:14px; line-height:1.7; }
+
 .cards { display:flex; flex-direction:column; gap:2.5rem; }
 .card { background:var(--bg2); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
-.card-head { padding:1.1rem 1.75rem; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; background:var(--bg3); }
+.card-head { padding:1rem 1.75rem; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; background:var(--bg3); }
 .card-head-left { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
 .card-num { font-family:var(--mono); font-size:12px; letter-spacing:0.1em; color:var(--text3); }
-.tags { display:flex; gap:7px; flex-wrap:wrap; }
-.tag { font-family:var(--mono); font-size:12px; padding:3px 10px; border-radius:5px; border:1px solid; }
+.tags { display:flex; gap:6px; flex-wrap:wrap; }
+.tag { font-family:var(--mono); font-size:11px; padding:3px 9px; border-radius:5px; border:1px solid; }
 .tag-type   { border-color:rgba(91,159,255,0.35); color:var(--accent); background:rgba(91,159,255,0.08); }
-.tag-domain { border-color:rgba(74,222,128,0.35); color:var(--green);  background:rgba(74,222,128,0.08); }
-.copy-btn { font-family:var(--mono); font-size:12px; padding:6px 14px; border-radius:7px; border:1px solid var(--border2); background:transparent; color:var(--text3); cursor:pointer; transition:all 0.15s; display:flex; align-items:center; gap:5px; white-space:nowrap; }
+.tag-domain { border-color:rgba(74,222,128,0.35); color:var(--green); background:rgba(74,222,128,0.08); }
+.copy-btn { font-family:var(--mono); font-size:12px; padding:6px 13px; border-radius:7px; border:1px solid var(--border2); background:transparent; color:var(--text3); cursor:pointer; transition:all 0.15s; white-space:nowrap; }
 .copy-btn:hover { border-color:var(--accent); color:var(--accent); background:var(--accent2); }
 .copy-btn.copied { border-color:var(--green); color:var(--green); background:rgba(74,222,128,0.08); }
 .card-title { font-size:20px; font-weight:700; color:var(--text); line-height:1.4; padding:1.5rem 1.75rem 0; }
 .card-body { padding:0.5rem 1.75rem 1.75rem; }
 .section-block { margin-top:1.75rem; }
 .section-label { font-family:var(--mono); font-size:11px; letter-spacing:0.12em; padding:5px 12px; border-radius:5px; display:inline-block; margin-bottom:12px; font-weight:500; }
-.lbl-content { background:rgba(91,159,255,0.1);  color:#7ab5ff; border:1px solid rgba(91,159,255,0.25); }
-.lbl-impl    { background:rgba(74,222,128,0.1);  color:#4ade80; border:1px solid rgba(74,222,128,0.25); }
-.lbl-rd      { background:rgba(251,191,36,0.1);  color:#fbbf24; border:1px solid rgba(251,191,36,0.25); }
-.lbl-korea   { background:rgba(192,132,252,0.1); color:#c084fc; border:1px solid rgba(192,132,252,0.25); }
+.lbl-content { background:rgba(91,159,255,0.1); color:#7ab5ff; border:1px solid rgba(91,159,255,0.25); }
+.lbl-impl   { background:rgba(74,222,128,0.1); color:#4ade80; border:1px solid rgba(74,222,128,0.25); }
+.lbl-rd     { background:rgba(251,191,36,0.1); color:#fbbf24; border:1px solid rgba(251,191,36,0.25); }
+.lbl-korea  { background:rgba(192,132,252,0.1); color:#c084fc; border:1px solid rgba(192,132,252,0.25); }
 .section-text { font-size:16px; color:var(--text2); line-height:2.0; }
 .section-text p { margin-bottom:0.85rem; }
 .section-text p:last-child { margin-bottom:0; }
 .num-marker { color:var(--accent); font-weight:700; }
-.cite { font-size:13px; color:var(--text3); font-family:var(--mono); font-style:italic; }
+.cite { font-size:13px; color:var(--text3); font-family:var(--mono); }
 .card-footer { border-top:1px solid var(--border); padding:1.1rem 1.75rem; background:var(--bg3); }
 .source-label { font-family:var(--mono); font-size:11px; letter-spacing:0.1em; color:var(--text3); margin-bottom:10px; }
 .source-list { display:flex; flex-direction:column; gap:7px; }
 .source-item { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:var(--text3); line-height:1.6; }
-.source-dot { width:5px; height:5px; border-radius:50%; background:var(--text3); flex-shrink:0; margin-top:8px; }
+.source-dot { width:5px; height:5px; border-radius:50%; background:var(--text3); flex-shrink:0; margin-top:9px; }
 .source-item-text { flex:1; }
 .source-search-btn { flex-shrink:0; font-family:var(--mono); font-size:11px; padding:3px 9px; border-radius:4px; border:1px solid rgba(91,159,255,0.3); color:var(--accent); background:rgba(91,159,255,0.06); text-decoration:none; white-space:nowrap; transition:all 0.12s; }
 .source-search-btn:hover { background:rgba(91,159,255,0.15); }
@@ -86,7 +97,8 @@ main { max-width:960px; margin:0 auto; padding:3rem 2rem 6rem; }
   header { padding:0 1rem; }
   main { padding:2rem 1rem 4rem; }
   .tech-grid { grid-template-columns:repeat(2,1fr); }
-  .gen-btn { width:100%; text-align:center; }
+  .gen-btn, .next-btn { width:100%; text-align:center; }
+  .btn-group { width:100%; }
   .card-title { font-size:18px; }
 }
 </style>
@@ -100,12 +112,13 @@ main { max-width:960px; margin:0 auto; padding:3rem 2rem 6rem; }
   <div class="hero">
     <div class="hero-eyebrow">국방 오피니언 리더 보좌 시스템</div>
     <h1 class="hero-title">국방 인텔리전스<br>브리핑 에이전트</h1>
-    <div class="hero-sub">방위사업청 「'25~'39 국방기술기획서」 10대 전략기술 기반 · 선진국 R&D · 국내 기획 방향 수록</div>
+    <div class="hero-sub">방위사업청 「'25~'39 국방기술기획서」 10대 전략기술 · 박사급 전문가 수준 분석</div>
     <div class="cost-bar">
       <span class="cost-pill">Vercel 호스팅 무료</span>
       <span>Claude API: 생성 1회당 약 ₩30 · 월 30회 기준 약 ₩900</span>
     </div>
   </div>
+
   <div class="controls-wrap">
     <span class="ctrl-label">방위사업청 10대 국방전략기술 분야</span>
     <div class="tech-grid" id="topicGrid">
@@ -120,14 +133,19 @@ main { max-width:960px; margin:0 auto; padding:3rem 2rem 6rem; }
       <button class="t-btn" data-topic="propulsion" data-label="⑨ 극초음속·추진"><span class="btn-num">⑨ 추진</span>극초음속·추진</button>
       <button class="t-btn" data-topic="wmd" data-label="⑩ WMD 대응"><span class="btn-num">⑩ WMD</span>WMD 대응</button>
     </div>
-    <div class="bottom-row">
-      <div class="selected-label">선택된 분야: <strong id="selectedLabel">① 인공지능(AI)</strong></div>
-      <button class="gen-btn" id="genBtn" onclick="generate()">브리핑 생성 ↗</button>
+    <div class="action-row">
+      <div class="selected-label">선택: <strong id="selectedLabel">① 인공지능(AI)</strong></div>
+      <div class="btn-group">
+        <button class="next-btn" id="nextBtn" onclick="generateNext()">다음 자료 ↻</button>
+        <button class="gen-btn" id="genBtn" onclick="generateNew()">브리핑 생성 ↗</button>
+      </div>
     </div>
   </div>
+
+  <div class="briefing-counter" id="briefingCounter"></div>
   <div class="status" id="status">분야를 선택하고 브리핑 생성 버튼을 누르세요.</div>
   <div id="output">
-    <div class="empty">10대 전략기술 분야 중 하나를 선택하고 브리핑 생성을 눌러주세요<br><span style="font-size:14px;color:var(--text3)">핵심 내용 · 전략적 시사점 · 선진국 R&D · 국내 기획 방향 · 인용 근거 · 참고 자료 수록</span></div>
+    <div class="empty">10대 전략기술 분야를 선택하고 브리핑 생성을 누르세요<br><span style="font-size:14px;color:var(--text3)">자료 1건씩 · 박사급 심층 분석 · 인용 근거 · 참고 자료 구글 검색</span></div>
   </div>
 </main>
 
@@ -136,6 +154,9 @@ const today = new Date();
 document.getElementById('headerDate').textContent = today.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
 
 let cur = 'ai';
+let sessionCards = [];
+let lastSubtopic = '';
+
 document.querySelectorAll('.t-btn').forEach(b => {
   b.addEventListener('click', () => {
     document.querySelectorAll('.t-btn').forEach(x => x.classList.remove('active'));
@@ -151,9 +172,16 @@ function setStatus(msg, loading=false) {
     : '<span>' + msg + '</span>';
 }
 
-function splitBlocks(text) {
+function updateCounter() {
+  const el = document.getElementById('briefingCounter');
+  if (sessionCards.length === 0) { el.classList.remove('visible'); return; }
+  el.classList.add('visible');
+  el.textContent = '이번 세션 생성 자료: ' + sessionCards.length + '건 · 분야: ' + cur;
+}
+
+function splitBlock(text) {
   const parts = text.split(/={2,}자료\s*\d+={2,}/i);
-  return parts.filter(p => p.trim().length > 30).slice(0, 2);
+  return parts.find(p => p.trim().length > 30) || text;
 }
 
 function parseBlock(block) {
@@ -171,8 +199,8 @@ function toHtml(text) {
   if (!text) return '';
   const esc = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   return esc
-    .replace(/(①|②|③|④)/g, '<span class="num-marker">$1</span>')
-    .replace(/\(([^)]{3,50}(?:년|보고서|연구원|연구소|부|청|원|대|군|부대|사|위원회|연합|기관|DARPA|RUSI|CSIS|RAND|NATO|DoD|IDF|DSTL|ADD)[^)]*)\)/g, '<span class="cite">($1)</span>')
+    .replace(/(①|②|③|④|⑤|⑥)/g, '<span class="num-marker">$1</span>')
+    .replace(/\(([^)]{4,60}(?:년|부|청|원|연구소|연구원|사령부|대학|DARPA|RUSI|CSIS|RAND|NATO|DoD|IDF|DSTL|ADD|합참|국방부|방사청)[^)]*)\)/g, ' <span class="cite">($1)</span>')
     .replace(/\n{2,}/g, '</p><p>')
     .replace(/\n/g, ' ')
     .replace(/^/, '<p>').replace(/$/, '</p>');
@@ -180,15 +208,12 @@ function toHtml(text) {
 
 function renderSource(src) {
   if (!src) return '';
-  const lines = src.split(/\n/)
-    .map(l => l.replace(/^\s*\d+[.)]\s*/, '').trim())
-    .filter(l => l.length > 5);
+  const lines = src.split(/\n/).map(l => l.replace(/^\s*\d+[.)]\s*/, '').trim()).filter(l => l.length > 5);
   if (!lines.length) return '';
   const items = lines.map(line => {
     const q = encodeURIComponent(line.replace(/,/g,' '));
-    const searchUrl = 'https://www.google.com/search?q=' + q;
     const esc = line.replace(/&/g,'&amp;').replace(/</g,'&lt;');
-    return '<div class="source-item"><span class="source-dot"></span><span class="source-item-text">' + esc + '</span><a class="source-search-btn" href="' + searchUrl + '" target="_blank" rel="noopener">검색 ↗</a></div>';
+    return '<div class="source-item"><span class="source-dot"></span><span class="source-item-text">' + esc + '</span><a class="source-search-btn" href="https://www.google.com/search?q=' + q + '" target="_blank" rel="noopener">검색 ↗</a></div>';
   }).join('');
   return '<div class="card-footer"><div class="source-label">참고 자료</div><div class="source-list">' + items + '</div></div>';
 }
@@ -215,37 +240,27 @@ function copyCard(cardId) {
     footer.querySelectorAll('.source-item-text').forEach(s => lines.push('• ' + s.textContent.trim()));
   }
   const text = lines.join('\n').trim();
-  const fallback = () => {
-    const ta = document.createElement('textarea');
-    ta.value = text; document.body.appendChild(ta); ta.select();
-    document.execCommand('copy'); document.body.removeChild(ta);
-  };
-  const done = () => {
-    btn.classList.add('copied');
-    btn.innerHTML = '✓ 복사 완료';
-    setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '⎘ 복사'; }, 2200);
-  };
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(done).catch(() => { fallback(); done(); });
-  } else { fallback(); done(); }
+  const done = () => { btn.classList.add('copied'); btn.innerHTML = '✓ 복사 완료'; setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '⎘ 복사'; }, 2200); };
+  if (navigator.clipboard) { navigator.clipboard.writeText(text).then(done).catch(() => { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done(); }); }
+  else { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done(); }
 }
 
-function renderCard(block, idx) {
+function renderCard(block, cardIndex) {
   const s = parseBlock(block);
-  const title   = s['제목'] || '';
-  const type    = s['유형'] || '';
-  const domain  = s['분야'] || '';
+  const title  = s['제목'] || '';
+  const type   = s['유형'] || '';
+  const domain = s['분야'] || '';
   const content = s['핵심내용'] || s['핵심 내용'] || '';
-  const impl    = s['전략적시사점'] || s['전략적 시사점'] || s['시사점'] || '';
-  const rdG     = s['선진국rd'] || s['선진국r&d'] || s['선진국rnd'] || s['선진국최신r&d방향'] || s['선진국최신rd방향'] || '';
-  const rdK     = s['국내기획'] || s['국내 기획'] || s['국내개발기획방향'] || '';
-  const src     = s['출처'] || '';
-  const cardId  = 'card-' + idx;
+  const impl   = s['전략적시사점'] || s['전략적 시사점'] || '';
+  const rdG    = s['선진국rd'] || s['선진국r&d'] || s['선진국최신r&d방향'] || s['선진국최신rd방향'] || '';
+  const rdK    = s['국내기획'] || s['국내개발기획방향'] || '';
+  const src    = s['출처'] || '';
+  const cardId = 'card-' + cardIndex;
 
   return '<div class="card" id="' + cardId + '">' +
     '<div class="card-head">' +
       '<div class="card-head-left">' +
-        '<span class="card-num">자료 ' + (idx+1) + '</span>' +
+        '<span class="card-num">자료 ' + (cardIndex+1) + '</span>' +
         '<div class="tags">' +
           (type   ? '<span class="tag tag-type">' + type + '</span>' : '') +
           (domain ? '<span class="tag tag-domain">' + domain.slice(0,22) + '</span>' : '') +
@@ -264,29 +279,67 @@ function renderCard(block, idx) {
   '</div>';
 }
 
-async function generate() {
-  const btn = document.getElementById('genBtn');
-  const output = document.getElementById('output');
-  btn.disabled = true;
-  setStatus('브리핑 생성 중 (15~25초 소요)...', true);
-  output.innerHTML = '';
+async function fetchBriefing(isNext) {
+  const genBtn = document.getElementById('genBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  genBtn.disabled = true;
+  nextBtn.disabled = true;
+  setStatus('심층 분석 중 (20~30초 소요)...', true);
+
   try {
+    const body = { topic: cur };
+    if (isNext && lastSubtopic) body.subtopic = lastSubtopic;
+
     const res = await fetch('/api/briefing', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ topic: cur }),
+      body: JSON.stringify(body),
     });
     if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.error || 'HTTP ' + res.status); }
     const data = await res.json();
-    const blocks = splitBlocks(data.text || '');
-    if (!blocks.length) throw new Error('응답 형식 오류. 다시 시도해주세요.');
-    output.innerHTML = '<div class="cards">' + blocks.map((b,i) => renderCard(b,i)).join('') + '</div>';
+    const block = splitBlock(data.text || '');
+    if (!block || block.trim().length < 30) throw new Error('응답 형식 오류. 다시 시도해주세요.');
+
+    lastSubtopic = data.subtopic || '';
+    const cardIndex = sessionCards.length;
+    sessionCards.push(block);
+
+    const cardHtml = renderCard(block, cardIndex);
+    const output = document.getElementById('output');
+
+    if (!isNext) {
+      output.innerHTML = '<div class="cards">' + cardHtml + '</div>';
+    } else {
+      const cardsDiv = output.querySelector('.cards');
+      if (cardsDiv) cardsDiv.insertAdjacentHTML('beforeend', cardHtml);
+      else output.innerHTML = '<div class="cards">' + cardHtml + '</div>';
+      // 새 카드로 스크롤
+      setTimeout(() => {
+        const newCard = document.getElementById('card-' + cardIndex);
+        if (newCard) newCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+
+    nextBtn.classList.add('visible');
+    updateCounter();
     setStatus('브리핑 완료 — ' + data.date + ' · ' + new Date().toLocaleTimeString('ko-KR'));
   } catch(e) {
-    output.innerHTML = '<div class="error-box">오류: ' + e.message + '</div>';
-    setStatus('오류 발생');
+    if (!isNext) document.getElementById('output').innerHTML = '<div class="error-box">오류: ' + e.message + '</div>';
+    setStatus('오류: ' + e.message);
   }
-  btn.disabled = false;
+  genBtn.disabled = false;
+  nextBtn.disabled = false;
+}
+
+function generateNew() {
+  sessionCards = [];
+  lastSubtopic = '';
+  document.getElementById('nextBtn').classList.remove('visible');
+  fetchBriefing(false);
+}
+
+function generateNext() {
+  fetchBriefing(true);
 }
 </script>
 </body>
