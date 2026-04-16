@@ -275,11 +275,11 @@ async function fetchBriefing(isNext){
   const genBtn=document.getElementById('genBtn');
   const nextBtn=document.getElementById('nextBtn');
   genBtn.disabled=true;nextBtn.disabled=true;
-  setStatus('브리핑 생성 중 (Sonnet · 20~25초)...',true);
+  setStatus('브리핑 생성 중 (15~20초)...',true);
   try{
     const body={topic:cur};
     if(isNext&&lastSubtopic)body.subtopic=lastSubtopic;
-    const res=await fetch('/api/briefing-desktop',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const res=await fetch('/api/briefing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...body, desktop:true})});
     const data=await res.json();
     if(!res.ok||data.error)throw new Error(data.error||'HTTP '+res.status);
     if(!data.text)throw new Error('빈 응답. 다시 시도해주세요.');
