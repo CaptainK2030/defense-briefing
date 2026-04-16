@@ -21,26 +21,51 @@
   .logo-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s ease-in-out infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
   .header-date { font-family: var(--mono); font-size: 13px; color: var(--text3); }
-  main { max-width: 900px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+  main { max-width: 960px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
   .hero { margin-bottom: 2.5rem; }
   .hero-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; color: var(--text3); margin-bottom: 12px; }
   .hero-title { font-size: clamp(26px, 4vw, 36px); font-weight: 500; line-height: 1.2; margin-bottom: 10px; }
   .hero-sub { font-size: 15px; color: var(--text2); font-family: var(--mono); }
-  .cost-bar { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-family: var(--mono); font-size: 12px; color: var(--text3); }
+  .cost-bar { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-family: var(--mono); font-size: 12px; color: var(--text3); flex-wrap: wrap; }
   .cost-pill { padding: 3px 9px; background: rgba(61,220,132,0.08); border: 1px solid rgba(61,220,132,0.2); border-radius: 4px; color: var(--green); }
-  .controls-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 2rem; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
-  .ctrl-label { font-family: var(--mono); font-size: 11px; color: var(--text3); letter-spacing: 0.12em; white-space: nowrap; }
-  .topic-grid { display: flex; gap: 7px; flex-wrap: wrap; flex: 1; }
-  .t-btn { font-family: var(--mono); font-size: 12px; padding: 6px 13px; border-radius: 6px; border: 1px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+
+  .controls-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 2rem; }
+  .ctrl-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; flex-wrap: wrap; }
+  .ctrl-label { font-family: var(--mono); font-size: 11px; color: var(--text3); letter-spacing: 0.14em; white-space: nowrap; }
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 7px;
+    margin-bottom: 1rem;
+  }
+  .t-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 8px 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    line-height: 1.3;
+  }
+  .t-btn .btn-num { display: block; font-size: 9px; color: var(--text3); margin-bottom: 2px; }
   .t-btn:hover { border-color: var(--accent); color: var(--accent); }
   .t-btn.active { background: var(--accent2); border-color: var(--accent); color: var(--accent); }
-  .gen-btn { font-family: var(--mono); font-size: 13px; letter-spacing: 0.08em; padding: 11px 24px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent2); color: var(--accent); cursor: pointer; transition: all 0.15s; white-space: nowrap; flex-shrink: 0; }
+  .t-btn.active .btn-num { color: #6baeff; }
+  .bottom-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .selected-label { font-family: var(--mono); font-size: 12px; color: var(--text3); }
+  .selected-label span { color: var(--accent); }
+  .gen-btn { font-family: var(--mono); font-size: 13px; letter-spacing: 0.08em; padding: 11px 28px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent2); color: var(--accent); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
   .gen-btn:hover:not(:disabled) { background: var(--accent); color: #fff; }
   .gen-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
   .status { font-family: var(--mono); font-size: 12px; color: var(--text3); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px; min-height: 22px; }
   .spinner { width: 11px; height: 11px; border: 1.5px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .empty { text-align: center; padding: 3rem 1rem; border: 1px dashed var(--border2); border-radius: 12px; color: var(--text3); font-family: var(--mono); font-size: 14px; line-height: 2; }
+  .empty { text-align: center; padding: 3rem 1rem; border: 1px dashed var(--border2); border-radius: 12px; color: var(--text3); font-family: var(--mono); font-size: 14px; line-height: 2.2; }
   .error-box { padding: 1rem 1.25rem; background: rgba(255,107,107,0.06); border: 1px solid rgba(255,107,107,0.2); border-radius: 8px; color: var(--red); font-family: var(--mono); font-size: 13px; }
   .cards { display: flex; flex-direction: column; gap: 1.5rem; }
   .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
@@ -54,17 +79,17 @@
   .card-title { font-size: 18px; font-weight: 500; color: var(--text); line-height: 1.4; padding: 1.25rem 1.5rem 0; }
   .card-body { padding: 0.5rem 1.5rem 1.25rem; }
   .section-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 4px; display: inline-block; margin-top: 18px; margin-bottom: 8px; }
-  .lbl-content { background: rgba(74,158,255,0.08); color: #6baeff; border: 1px solid rgba(74,158,255,0.2); }
-  .lbl-impl    { background: rgba(61,220,132,0.08); color: #3ddc84; border: 1px solid rgba(61,220,132,0.2); }
+  .lbl-content { background: rgba(74,158,255,0.08);  color: #6baeff; border: 1px solid rgba(74,158,255,0.2); }
+  .lbl-impl    { background: rgba(61,220,132,0.08);  color: #3ddc84; border: 1px solid rgba(61,220,132,0.2); }
   .lbl-rd      { background: rgba(255,183,64,0.08);  color: #ffb740; border: 1px solid rgba(255,183,64,0.2); }
   .lbl-korea   { background: rgba(167,139,250,0.08); color: #a78bfa; border: 1px solid rgba(167,139,250,0.2); }
   .section-text { font-size: 15px; color: var(--text2); line-height: 1.9; }
   .card-footer { border-top: 1px solid var(--border); padding: 0.875rem 1.5rem; }
   .source-text { font-family: var(--mono); font-size: 12px; color: var(--text3); line-height: 1.6; }
-  @media (max-width: 600px) {
+  @media (max-width: 640px) {
     header { padding: 0 1rem; }
     main { padding: 1.5rem 1rem 4rem; }
-    .controls-wrap { flex-direction: column; align-items: flex-start; }
+    .tech-grid { grid-template-columns: repeat(2, 1fr); }
     .gen-btn { width: 100%; text-align: center; }
     .card-title { font-size: 16px; }
     .section-text { font-size: 14px; }
@@ -80,107 +105,161 @@
   <div class="hero">
     <div class="hero-label">국방 오피니언 리더 보좌 시스템</div>
     <h1 class="hero-title">국방 인텔리전스<br>브리핑 에이전트</h1>
-    <div class="hero-sub">방위사업청 국방기술기획서 10대 분야 기반 · 매일 자동 생성</div>
+    <div class="hero-sub">방위사업청 「'25~'39 국방기술기획서」 10대 전략기술 기반</div>
     <div class="cost-bar">
       <span class="cost-pill">Vercel 호스팅 무료</span>
       <span>Claude API 사용료: 생성 1회당 약 ₩30 · 월 30회 기준 약 ₩900</span>
     </div>
   </div>
+
   <div class="controls-wrap">
-    <span class="ctrl-label">분야 선택</span>
-    <div class="topic-grid" id="topicGrid">
-      <button class="t-btn active" data-topic="auto">전체 자동</button>
-      <button class="t-btn" data-topic="drone">드론·무인</button>
-      <button class="t-btn" data-topic="korus">한미동맹</button>
-      <button class="t-btn" data-topic="nk">북한·한반도</button>
-      <button class="t-btn" data-topic="cyber">사이버·우주</button>
-      <button class="t-btn" data-topic="nuclear">핵·WMD</button>
-      <button class="t-btn" data-topic="kdef">방위산업</button>
+    <div class="ctrl-row">
+      <span class="ctrl-label">10대 전략기술 분야</span>
     </div>
-    <button class="gen-btn" id="genBtn" onclick="generate()">브리핑 생성 ↗</button>
+    <div class="tech-grid" id="topicGrid">
+      <button class="t-btn active" data-topic="ai" data-label="인공지능(AI)">
+        <span class="btn-num">① AI</span>인공지능
+      </button>
+      <button class="t-btn" data-topic="uav" data-label="유·무인복합">
+        <span class="btn-num">② 무인</span>유·무인복합
+      </button>
+      <button class="t-btn" data-topic="quantum" data-label="양자(Quantum)">
+        <span class="btn-num">③ 양자</span>양자기술
+      </button>
+      <button class="t-btn" data-topic="space" data-label="우주(Space)">
+        <span class="btn-num">④ 우주</span>우주전력
+      </button>
+      <button class="t-btn" data-topic="energy" data-label="에너지(Energy)">
+        <span class="btn-num">⑤ 에너지</span>지향성에너지
+      </button>
+      <button class="t-btn" data-topic="material" data-label="첨단소재">
+        <span class="btn-num">⑥ 소재</span>첨단소재
+      </button>
+      <button class="t-btn" data-topic="cyber" data-label="사이버·네트워크">
+        <span class="btn-num">⑦ 사이버</span>사이버·C4I
+      </button>
+      <button class="t-btn" data-topic="sensor" data-label="센서·전자기전">
+        <span class="btn-num">⑧ 센서</span>센서·전자기전
+      </button>
+      <button class="t-btn" data-topic="propulsion" data-label="추진(Propulsion)">
+        <span class="btn-num">⑨ 추진</span>극초음속·추진
+      </button>
+      <button class="t-btn" data-topic="wmd" data-label="WMD 대응">
+        <span class="btn-num">⑩ WMD</span>WMD 대응
+      </button>
+    </div>
+    <div class="bottom-row">
+      <div class="selected-label">선택: <span id="selectedLabel">인공지능(AI)</span></div>
+      <button class="gen-btn" id="genBtn" onclick="generate()">브리핑 생성 ↗</button>
+    </div>
   </div>
+
   <div class="status" id="status">대기 중 — 분야를 선택하고 브리핑 생성 버튼을 누르세요.</div>
-  <div id="output"><div class="empty">버튼을 누르면 오늘의 국방·안보 인텔리전스 브리핑 2건이 생성됩니다</div></div>
+  <div id="output">
+    <div class="empty">
+      10대 전략기술 분야 중 하나를 선택하고<br>
+      브리핑 생성 버튼을 누르세요<br>
+      <span style="font-size:12px;color:var(--text3)">방위사업청 국방기술기획서 기반 · 선진국 R&D · 국내 기획 방향 수록</span>
+    </div>
+  </div>
 </main>
+
 <script>
 const today = new Date();
 document.getElementById('headerDate').textContent = today.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
+
 const TOPICS = {
-  auto:'국방·안보 전 분야에서 오늘 가장 주목할 이슈',
-  drone:'드론·무인체계·AI 자율전투',
-  korus:'한미동맹·인도태평양 전략·방위비 분담',
-  nk:'북한 군사동향·한반도 안보',
-  cyber:'사이버전·우주전·전자전',
-  nuclear:'핵억제·핵비확산·WMD',
-  kdef:'방위산업·K-방산 수출'
+  ai:         '인공지능(AI) — 국방 AI 플랫폼, 자율 의사결정, 스마트 전력지원',
+  uav:        '유·무인복합 — 드론, 무인기, 로봇전투체계, 유무인 협업작전',
+  quantum:    '양자기술 — 양자통신, 양자센서, 양자암호, 양자컴퓨팅',
+  space:      '우주전력 — 감시정찰위성, 초정밀 위성항법, 우주상황인식, 대위성 전력',
+  energy:     '지향성에너지(DEW) — 고출력 레이저·마이크로파, 에너지 무기체계',
+  material:   '첨단소재 — 스텔스 소재, 초고강도 구조재, 나노·메타소재',
+  cyber:      '사이버·네트워크 — 사이버전, 전자전, C4I, 전술 네트워크',
+  sensor:     '센서·전자기전 — 레이더, 적외선·광학센서, 전자기 공격·방어',
+  propulsion: '추진 — 극초음속, 고체추진, 항공·해양 추진체계',
+  wmd:        'WMD 대응 — 미사일방어, 고위력 정밀타격, 핵억제, 화생방 방어',
 };
-let cur='auto';
-document.querySelectorAll('.t-btn').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('.t-btn').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active'); cur=b.dataset.topic;
+
+let cur = 'ai';
+document.querySelectorAll('.t-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.t-btn').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    cur = b.dataset.topic;
+    document.getElementById('selectedLabel').textContent = b.dataset.label;
   });
 });
-function setStatus(msg,loading=false){
-  document.getElementById('status').innerHTML=loading?`<span class="spinner"></span><span style="color:#4a9eff">${msg}</span>`:`<span>${msg}</span>`;
+
+function setStatus(msg, loading=false) {
+  document.getElementById('status').innerHTML = loading
+    ? `<span class="spinner"></span><span style="color:#4a9eff">${msg}</span>`
+    : `<span>${msg}</span>`;
 }
-function field(text,...keys){
-  for(const key of keys){
-    const re=new RegExp(`[-•]?\\s*${key}\\s*[:：]\\s*([\\s\\S]+?)(?=\\n\\s*[-•]?\\s*(?:제목|유형|분야|핵심|전략|선진국|국내|출처|$))`,'i');
-    const m=text.match(re);
-    if(m&&m[1].trim())return m[1].trim().replace(/\n/g,' ').slice(0,1000);
+
+function field(text, ...keys) {
+  for (const key of keys) {
+    const re = new RegExp(`[-•]?\\s*${key}\\s*[:：]\\s*([\\s\\S]+?)(?=\\n\\s*[-•]?\\s*(?:제목|유형|분야|핵심|전략|선진국|국내|출처|$))`, 'i');
+    const m = text.match(re);
+    if (m && m[1].trim()) return m[1].trim().replace(/\n/g, ' ').slice(0, 1000);
   }
   return '';
 }
-function renderCard(block,idx){
-  const title=field(block,'제목');
-  const type=field(block,'유형');
-  const domain=field(block,'분야');
-  const summary=field(block,'핵심 내용','핵심내용');
-  const impl=field(block,'전략적 시사점','시사점');
-  const rdG=field(block,'선진국 최신 R&D 방향','선진국 R&D','선진국');
-  const rdK=field(block,'국내 개발 기획 방향','국내 기획','국내 개발');
-  const src=field(block,'출처');
-  const body=(!summary&&!impl)?block.slice(0,800):'';
+
+function renderCard(block, idx) {
+  const title  = field(block, '제목');
+  const type   = field(block, '유형');
+  const domain = field(block, '분야');
+  const summary = field(block, '핵심 내용', '핵심내용');
+  const impl   = field(block, '전략적 시사점', '시사점');
+  const rdG    = field(block, '선진국 최신 R&D 방향', '선진국 R&D', '선진국');
+  const rdK    = field(block, '국내 개발 기획 방향', '국내 기획', '국내 개발');
+  const src    = field(block, '출처');
+  const body   = (!summary && !impl) ? block.slice(0, 800) : '';
   return `<div class="card">
     <div class="card-head">
       <span class="card-num">자료 ${idx+1}</span>
       <div class="tags">
-        ${type?`<span class="tag tag-type">${type}</span>`:''}
-        ${domain?`<span class="tag tag-domain">${domain}</span>`:''}
+        ${type   ? `<span class="tag tag-type">${type}</span>` : ''}
+        ${domain ? `<span class="tag tag-domain">${domain}</span>` : ''}
       </div>
     </div>
-    ${title?`<div class="card-title">${title}</div>`:''}
+    ${title ? `<div class="card-title">${title}</div>` : ''}
     <div class="card-body">
-      ${summary?`<div class="section-label lbl-content">핵심 내용</div><div class="section-text">${summary}</div>`:''}
-      ${impl?`<div class="section-label lbl-impl">전략적 시사점</div><div class="section-text">${impl}</div>`:''}
-      ${rdG?`<div class="section-label lbl-rd">선진국 최신 R&amp;D 방향</div><div class="section-text">${rdG}</div>`:''}
-      ${rdK?`<div class="section-label lbl-korea">국내 개발 기획 방향</div><div class="section-text">${rdK}</div>`:''}
-      ${body?`<div class="section-text">${body}</div>`:''}
+      ${summary ? `<div class="section-label lbl-content">핵심 내용</div><div class="section-text">${summary}</div>` : ''}
+      ${impl    ? `<div class="section-label lbl-impl">전략적 시사점</div><div class="section-text">${impl}</div>` : ''}
+      ${rdG     ? `<div class="section-label lbl-rd">선진국 최신 R&amp;D 방향</div><div class="section-text">${rdG}</div>` : ''}
+      ${rdK     ? `<div class="section-label lbl-korea">국내 개발 기획 방향</div><div class="section-text">${rdK}</div>` : ''}
+      ${body    ? `<div class="section-text">${body}</div>` : ''}
     </div>
-    ${src?`<div class="card-footer"><div class="source-text">출처: ${src}</div></div>`:''}
+    ${src ? `<div class="card-footer"><div class="source-text">출처: ${src}</div></div>` : ''}
   </div>`;
 }
-async function generate(){
-  const btn=document.getElementById('genBtn');
-  const output=document.getElementById('output');
-  const dateStr=today.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
-  btn.disabled=true;
-  setStatus('브리핑 생성 중...',true);
-  output.innerHTML='';
-  try{
-    const res=await fetch('/api/briefing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({topic:cur})});
-    if(!res.ok){const e=await res.json();throw new Error(e.error||`HTTP ${res.status}`);}
-    const {text,date}=await res.json();
-    const blocks=text.split(/\[자료\s*\d+\]/).filter(p=>p.trim().length>40).slice(0,2);
-    if(!blocks.length)throw new Error('응답 파싱 실패. 다시 시도해주세요.');
-    output.innerHTML=`<div class="cards">${blocks.map((b,i)=>renderCard(b,i)).join('')}</div>`;
+
+async function generate() {
+  const btn = document.getElementById('genBtn');
+  const output = document.getElementById('output');
+  const dateStr = today.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
+  btn.disabled = true;
+  setStatus('브리핑 생성 중...', true);
+  output.innerHTML = '';
+  try {
+    const res = await fetch('/api/briefing', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ topic: cur }),
+    });
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error || `HTTP ${res.status}`); }
+    const { text, date } = await res.json();
+    const blocks = text.split(/\[자료\s*\d+\]/).filter(p => p.trim().length > 40).slice(0, 2);
+    if (!blocks.length) throw new Error('응답 파싱 실패. 다시 시도해주세요.');
+    output.innerHTML = `<div class="cards">${blocks.map((b,i) => renderCard(b,i)).join('')}</div>`;
     setStatus(`브리핑 완료 — ${date} · ${new Date().toLocaleTimeString('ko-KR')}`);
-  }catch(e){
-    output.innerHTML=`<div class="error-box">오류: ${e.message}</div>`;
+  } catch(e) {
+    output.innerHTML = `<div class="error-box">오류: ${e.message}</div>`;
     setStatus('오류 발생');
   }
-  btn.disabled=false;
+  btn.disabled = false;
 }
 </script>
 </body>
