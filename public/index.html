@@ -8,152 +8,94 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #0d0f14; --bg2: #13161e; --bg3: #1a1e28;
-  --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.15);
-  --text: #f0f2f5; --text2: #b0b8c8; --text3: #6b7590;
-  --accent: #5b9fff; --accent2: #1c3a6e;
-  --green: #4ade80; --green2: #0f2d1a;
-  --amber: #fbbf24; --amber2: #2d1f00;
-  --purple: #c084fc; --purple2: #2a1640;
-  --red: #f87171;
-  --mono: 'IBM Plex Mono', monospace;
-  --sans: 'Noto Sans KR', sans-serif;
+  --bg:#0d0f14; --bg2:#13161e; --bg3:#1a1e28;
+  --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.15);
+  --text:#f0f2f5; --text2:#b0b8c8; --text3:#6b7590;
+  --accent:#5b9fff; --accent2:#1c3a6e;
+  --green:#4ade80; --amber:#fbbf24; --purple:#c084fc; --red:#f87171;
+  --mono:'IBM Plex Mono',monospace; --sans:'Noto Sans KR',sans-serif;
 }
 html { font-size: 18px; }
-body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.75; }
+body { background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.75; }
 
-header {
-  border-bottom: 1px solid var(--border);
-  padding: 0 2rem;
-  height: 64px;
-  display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top: 0;
-  background: rgba(13,15,20,0.96);
-  backdrop-filter: blur(16px);
-  z-index: 100;
-}
-.logo { font-family: var(--mono); font-size: 13px; letter-spacing: 0.15em; color: var(--accent); display: flex; align-items: center; gap: 10px; }
-.logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s ease-in-out infinite; }
+header { border-bottom:1px solid var(--border); padding:0 2rem; height:64px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; background:rgba(13,15,20,0.96); backdrop-filter:blur(16px); z-index:100; }
+.logo { font-family:var(--mono); font-size:13px; letter-spacing:0.15em; color:var(--accent); display:flex; align-items:center; gap:10px; }
+.logo-dot { width:8px; height:8px; border-radius:50%; background:var(--green); animation:pulse 2s ease-in-out infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.25} }
-.header-date { font-family: var(--mono); font-size: 13px; color: var(--text3); }
+.header-date { font-family:var(--mono); font-size:13px; color:var(--text3); }
 
-main { max-width: 960px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+main { max-width:960px; margin:0 auto; padding:3rem 2rem 6rem; }
 
-.hero { margin-bottom: 3rem; }
-.hero-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em; color: var(--text3); margin-bottom: 14px; text-transform: uppercase; }
-.hero-title { font-size: clamp(30px, 4.5vw, 42px); font-weight: 700; line-height: 1.15; margin-bottom: 12px; color: var(--text); }
-.hero-sub { font-size: 16px; color: var(--text2); line-height: 1.6; }
-.cost-bar { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-family: var(--mono); font-size: 13px; color: var(--text3); flex-wrap: wrap; }
-.cost-pill { padding: 4px 12px; background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.25); border-radius: 5px; color: var(--green); font-size: 12px; }
+.hero { margin-bottom:3rem; }
+.hero-eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:0.22em; color:var(--text3); margin-bottom:14px; }
+.hero-title { font-size:clamp(30px,4.5vw,42px); font-weight:700; line-height:1.15; margin-bottom:12px; }
+.hero-sub { font-size:16px; color:var(--text2); }
+.cost-bar { display:flex; align-items:center; gap:10px; margin-top:14px; font-family:var(--mono); font-size:13px; color:var(--text3); flex-wrap:wrap; }
+.cost-pill { padding:4px 12px; background:rgba(74,222,128,0.1); border:1px solid rgba(74,222,128,0.25); border-radius:5px; color:var(--green); font-size:12px; }
 
-.controls-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem 1.75rem; margin-bottom: 2.5rem; }
-.ctrl-label { font-family: var(--mono); font-size: 12px; color: var(--text3); letter-spacing: 0.14em; margin-bottom: 14px; display: block; }
-.tech-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 1.25rem; }
-.t-btn {
-  font-family: var(--sans);
-  font-size: 14px;
-  font-weight: 500;
-  padding: 10px 8px;
-  border-radius: 8px;
-  border: 1px solid var(--border2);
-  background: var(--bg3);
-  color: var(--text2);
-  cursor: pointer;
-  transition: all 0.15s;
-  text-align: center;
-  line-height: 1.35;
-}
-.t-btn .btn-num { display: block; font-family: var(--mono); font-size: 10px; color: var(--text3); margin-bottom: 3px; }
-.t-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent2); }
-.t-btn.active { background: var(--accent2); border-color: var(--accent); color: var(--accent); }
-.t-btn.active .btn-num { color: #7ab5ff; }
-.bottom-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 0.25rem; }
-.selected-label { font-size: 15px; color: var(--text2); }
-.selected-label strong { color: var(--accent); font-weight: 600; }
-.gen-btn {
-  font-family: var(--sans);
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  padding: 13px 32px;
-  border-radius: 9px;
-  border: 1px solid var(--accent);
-  background: var(--accent2);
-  color: var(--accent);
-  cursor: pointer;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-.gen-btn:hover:not(:disabled) { background: var(--accent); color: #fff; }
-.gen-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.controls-wrap { background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:1.5rem 1.75rem; margin-bottom:2.5rem; }
+.ctrl-label { font-family:var(--mono); font-size:12px; color:var(--text3); letter-spacing:0.14em; margin-bottom:14px; display:block; }
+.tech-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:1.25rem; }
+.t-btn { font-family:var(--sans); font-size:14px; font-weight:500; padding:10px 8px; border-radius:8px; border:1px solid var(--border2); background:var(--bg3); color:var(--text2); cursor:pointer; transition:all 0.15s; text-align:center; line-height:1.35; }
+.t-btn .btn-num { display:block; font-family:var(--mono); font-size:10px; color:var(--text3); margin-bottom:3px; }
+.t-btn:hover { border-color:var(--accent); color:var(--accent); background:var(--accent2); }
+.t-btn.active { background:var(--accent2); border-color:var(--accent); color:var(--accent); }
+.t-btn.active .btn-num { color:#7ab5ff; }
+.bottom-row { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.selected-label { font-size:15px; color:var(--text2); }
+.selected-label strong { color:var(--accent); font-weight:600; }
+.gen-btn { font-family:var(--sans); font-size:16px; font-weight:600; padding:13px 32px; border-radius:9px; border:1px solid var(--accent); background:var(--accent2); color:var(--accent); cursor:pointer; transition:all 0.15s; white-space:nowrap; }
+.gen-btn:hover:not(:disabled) { background:var(--accent); color:#fff; }
+.gen-btn:disabled { opacity:0.3; cursor:not-allowed; }
 
-.status { font-family: var(--mono); font-size: 13px; color: var(--text3); margin-bottom: 2rem; display: flex; align-items: center; gap: 10px; min-height: 24px; }
-.spinner { width: 13px; height: 13px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
-@keyframes spin { to { transform: rotate(360deg); } }
+.status { font-family:var(--mono); font-size:13px; color:var(--text3); margin-bottom:2rem; display:flex; align-items:center; gap:10px; min-height:24px; }
+.spinner { width:13px; height:13px; border:2px solid var(--border2); border-top-color:var(--accent); border-radius:50%; animation:spin 0.7s linear infinite; flex-shrink:0; }
+@keyframes spin { to { transform:rotate(360deg); } }
 
-.empty { text-align: center; padding: 4rem 1rem; border: 1px dashed var(--border2); border-radius: 14px; color: var(--text3); font-size: 16px; line-height: 2.2; }
-.error-box { padding: 1.25rem 1.5rem; background: rgba(248,113,113,0.06); border: 1px solid rgba(248,113,113,0.2); border-radius: 10px; color: var(--red); font-family: var(--mono); font-size: 14px; }
+.empty { text-align:center; padding:4rem 1rem; border:1px dashed var(--border2); border-radius:14px; color:var(--text3); font-size:16px; line-height:2.2; }
+.error-box { padding:1.25rem 1.5rem; background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.2); border-radius:10px; color:var(--red); font-family:var(--mono); font-size:14px; line-height:1.7; }
 
-.cards { display: flex; flex-direction: column; gap: 2rem; }
+.cards { display:flex; flex-direction:column; gap:2.5rem; }
 
-.card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-.card:hover { border-color: var(--border2); }
+.card { background:var(--bg2); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
+.card-head { padding:1.1rem 1.75rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:var(--bg3); }
+.card-num { font-family:var(--mono); font-size:12px; letter-spacing:0.1em; color:var(--text3); }
+.tags { display:flex; gap:7px; flex-wrap:wrap; }
+.tag { font-family:var(--mono); font-size:12px; padding:3px 10px; border-radius:5px; border:1px solid; }
+.tag-type   { border-color:rgba(91,159,255,0.35); color:var(--accent); background:rgba(91,159,255,0.08); }
+.tag-domain { border-color:rgba(74,222,128,0.35); color:var(--green);  background:rgba(74,222,128,0.08); }
+.card-title { font-size:20px; font-weight:700; color:var(--text); line-height:1.4; padding:1.5rem 1.75rem 0; }
+.card-body { padding:0.5rem 1.75rem 1.75rem; }
 
-.card-head { padding: 1.1rem 1.75rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--bg3); }
-.card-num { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; color: var(--text3); }
-.tags { display: flex; gap: 7px; flex-wrap: wrap; }
-.tag { font-family: var(--mono); font-size: 12px; padding: 3px 10px; border-radius: 5px; border: 1px solid; }
-.tag-type   { border-color: rgba(91,159,255,0.35); color: var(--accent); background: rgba(91,159,255,0.08); }
-.tag-domain { border-color: rgba(74,222,128,0.35); color: var(--green);  background: rgba(74,222,128,0.08); }
+.section-block { margin-top:1.75rem; }
+.section-label { font-family:var(--mono); font-size:11px; letter-spacing:0.12em; padding:5px 12px; border-radius:5px; display:inline-block; margin-bottom:12px; font-weight:500; }
+.lbl-content { background:rgba(91,159,255,0.1);  color:#7ab5ff; border:1px solid rgba(91,159,255,0.25); }
+.lbl-impl    { background:rgba(74,222,128,0.1);  color:#4ade80; border:1px solid rgba(74,222,128,0.25); }
+.lbl-rd      { background:rgba(251,191,36,0.1);  color:#fbbf24; border:1px solid rgba(251,191,36,0.25); }
+.lbl-korea   { background:rgba(192,132,252,0.1); color:#c084fc; border:1px solid rgba(192,132,252,0.25); }
 
-.card-title { font-size: 20px; font-weight: 700; color: var(--text); line-height: 1.4; padding: 1.5rem 1.75rem 0; }
+.section-text { font-size:16px; color:var(--text2); line-height:2.0; }
+.section-text p { margin-bottom:0.75rem; }
+.section-text p:last-child { margin-bottom:0; }
+.section-text strong { color:var(--text); font-weight:600; }
+.section-text .point { display:flex; gap:10px; margin-bottom:0.6rem; }
+.section-text .point-marker { color:var(--accent); font-weight:700; flex-shrink:0; font-family:var(--mono); font-size:14px; }
 
-.card-body { padding: 0.75rem 1.75rem 1.5rem; }
+.card-footer { border-top:1px solid var(--border); padding:1rem 1.75rem; background:var(--bg3); }
+.source-label { font-family:var(--mono); font-size:11px; letter-spacing:0.1em; color:var(--text3); margin-bottom:6px; }
+.source-content { font-size:14px; color:var(--text3); line-height:1.7; }
+.source-content a { color:var(--accent); text-decoration:none; word-break:break-all; }
+.source-content a:hover { text-decoration:underline; }
+.source-content a::before { content:"↗ "; font-size:11px; }
 
-.section-block { margin-top: 1.5rem; }
-.section-label {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  padding: 5px 12px;
-  border-radius: 5px;
-  display: inline-block;
-  margin-bottom: 10px;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-.lbl-content { background: rgba(91,159,255,0.1);  color: #7ab5ff; border: 1px solid rgba(91,159,255,0.25); }
-.lbl-impl    { background: rgba(74,222,128,0.1);  color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
-.lbl-rd      { background: rgba(251,191,36,0.1);  color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
-.lbl-korea   { background: rgba(192,132,252,0.1); color: #c084fc; border: 1px solid rgba(192,132,252,0.25); }
-
-.section-text { font-size: 16px; color: var(--text2); line-height: 1.9; }
-
-.card-footer { border-top: 1px solid var(--border); padding: 1rem 1.75rem; background: var(--bg3); }
-.source-wrap { display: flex; flex-direction: column; gap: 6px; }
-.source-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--text3); }
-.source-links { display: flex; flex-direction: column; gap: 5px; }
-.source-link {
-  font-size: 14px;
-  color: var(--accent);
-  text-decoration: none;
-  word-break: break-all;
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-}
-.source-link:hover { text-decoration: underline; }
-.source-link::before { content: "↗"; font-size: 12px; flex-shrink: 0; margin-top: 3px; }
-.source-text-plain { font-size: 14px; color: var(--text3); line-height: 1.6; }
-
-@media (max-width: 680px) {
-  html { font-size: 16px; }
-  header { padding: 0 1rem; }
-  main { padding: 2rem 1rem 4rem; }
-  .tech-grid { grid-template-columns: repeat(2, 1fr); }
-  .gen-btn { width: 100%; text-align: center; }
-  .card-title { font-size: 18px; }
-  .section-text { font-size: 15px; }
+@media (max-width:680px) {
+  html { font-size:16px; }
+  header { padding:0 1rem; }
+  main { padding:2rem 1rem 4rem; }
+  .tech-grid { grid-template-columns:repeat(2,1fr); }
+  .gen-btn { width:100%; text-align:center; }
+  .card-title { font-size:18px; }
+  .section-text { font-size:15px; }
 }
 </style>
 </head>
@@ -172,53 +114,28 @@ main { max-width: 960px; margin: 0 auto; padding: 3rem 2rem 6rem; }
       <span>Claude API: 생성 1회당 약 ₩30 · 월 30회 기준 약 ₩900</span>
     </div>
   </div>
-
   <div class="controls-wrap">
     <span class="ctrl-label">방위사업청 10대 국방전략기술 분야</span>
     <div class="tech-grid" id="topicGrid">
-      <button class="t-btn active" data-topic="ai" data-label="① 인공지능(AI)">
-        <span class="btn-num">① AI</span>인공지능
-      </button>
-      <button class="t-btn" data-topic="uav" data-label="② 유·무인복합">
-        <span class="btn-num">② 무인</span>유·무인복합
-      </button>
-      <button class="t-btn" data-topic="quantum" data-label="③ 양자기술">
-        <span class="btn-num">③ 양자</span>양자기술
-      </button>
-      <button class="t-btn" data-topic="space" data-label="④ 우주전력">
-        <span class="btn-num">④ 우주</span>우주전력
-      </button>
-      <button class="t-btn" data-topic="energy" data-label="⑤ 지향성에너지">
-        <span class="btn-num">⑤ 에너지</span>지향성에너지
-      </button>
-      <button class="t-btn" data-topic="material" data-label="⑥ 첨단소재">
-        <span class="btn-num">⑥ 소재</span>첨단소재
-      </button>
-      <button class="t-btn" data-topic="cyber" data-label="⑦ 사이버·C4I">
-        <span class="btn-num">⑦ 사이버</span>사이버·C4I
-      </button>
-      <button class="t-btn" data-topic="sensor" data-label="⑧ 센서·전자기전">
-        <span class="btn-num">⑧ 센서</span>센서·전자기전
-      </button>
-      <button class="t-btn" data-topic="propulsion" data-label="⑨ 극초음속·추진">
-        <span class="btn-num">⑨ 추진</span>극초음속·추진
-      </button>
-      <button class="t-btn" data-topic="wmd" data-label="⑩ WMD 대응">
-        <span class="btn-num">⑩ WMD</span>WMD 대응
-      </button>
+      <button class="t-btn active" data-topic="ai" data-label="① 인공지능(AI)"><span class="btn-num">① AI</span>인공지능</button>
+      <button class="t-btn" data-topic="uav" data-label="② 유·무인복합"><span class="btn-num">② 무인</span>유·무인복합</button>
+      <button class="t-btn" data-topic="quantum" data-label="③ 양자기술"><span class="btn-num">③ 양자</span>양자기술</button>
+      <button class="t-btn" data-topic="space" data-label="④ 우주전력"><span class="btn-num">④ 우주</span>우주전력</button>
+      <button class="t-btn" data-topic="energy" data-label="⑤ 지향성에너지"><span class="btn-num">⑤ 에너지</span>지향성에너지</button>
+      <button class="t-btn" data-topic="material" data-label="⑥ 첨단소재"><span class="btn-num">⑥ 소재</span>첨단소재</button>
+      <button class="t-btn" data-topic="cyber" data-label="⑦ 사이버·C4I"><span class="btn-num">⑦ 사이버</span>사이버·C4I</button>
+      <button class="t-btn" data-topic="sensor" data-label="⑧ 센서·전자기전"><span class="btn-num">⑧ 센서</span>센서·전자기전</button>
+      <button class="t-btn" data-topic="propulsion" data-label="⑨ 극초음속·추진"><span class="btn-num">⑨ 추진</span>극초음속·추진</button>
+      <button class="t-btn" data-topic="wmd" data-label="⑩ WMD 대응"><span class="btn-num">⑩ WMD</span>WMD 대응</button>
     </div>
     <div class="bottom-row">
       <div class="selected-label">선택된 분야: <strong id="selectedLabel">① 인공지능(AI)</strong></div>
       <button class="gen-btn" id="genBtn" onclick="generate()">브리핑 생성 ↗</button>
     </div>
   </div>
-
   <div class="status" id="status">분야를 선택하고 브리핑 생성 버튼을 누르세요.</div>
   <div id="output">
-    <div class="empty">
-      10대 전략기술 분야 중 하나를 선택하고 브리핑 생성을 눌러주세요<br>
-      <span style="font-size:14px;color:var(--text3)">핵심 내용 · 전략적 시사점 · 선진국 R&D 방향 · 국내 개발 기획 방향 · 출처 링크 수록</span>
-    </div>
+    <div class="empty">10대 전략기술 분야 중 하나를 선택하고 브리핑 생성을 눌러주세요<br><span style="font-size:14px;color:var(--text3)">핵심 내용 · 전략적 시사점 · 선진국 R&D · 국내 기획 방향 · 출처 수록</span></div>
   </div>
 </main>
 
@@ -242,77 +159,96 @@ function setStatus(msg, loading=false) {
     : `<span>${msg}</span>`;
 }
 
-function field(text, ...keys) {
-  for (const key of keys) {
-    const re = new RegExp(`[-•]?\\s*${key}\\s*[:：]\\s*([\\s\\S]+?)(?=\\n\\s*[-•]?\\s*(?:제목|유형|분야|핵심|전략|선진국|국내|출처|$))`, 'i');
+// 마크다운 → HTML 변환
+function mdToHtml(text) {
+  if (!text) return '';
+  return text
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/__(.*?)__/g,'<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g,'<em>$1</em>')
+    .replace(/^[-•]\s+/gm,'')
+    .replace(/^①/gm,'<span style="color:#5b9fff;font-weight:600">①</span>')
+    .replace(/^②/gm,'<span style="color:#5b9fff;font-weight:600">②</span>')
+    .replace(/^③/gm,'<span style="color:#5b9fff;font-weight:600">③</span>')
+    .replace(/^④/gm,'<span style="color:#5b9fff;font-weight:600">④</span>')
+    .replace(/\n{2,}/g,'</p><p>')
+    .replace(/\n/g,' ')
+    .replace(/^/,'<p>').replace(/$/,'</p>');
+}
+
+// 섹션 추출 — 마크다운 레이블 포함 대응
+function extractSection(text, ...patterns) {
+  for (const pat of patterns) {
+    const re = new RegExp(
+      `(?:^|\\n)\\s*(?:[-•*]\\s*)?(?:\\*{0,2})${pat}(?:\\*{0,2})\\s*[:：]\\s*([\\s\\S]+?)(?=\\n\\s*(?:[-•*]\\s*)?(?:\\*{0,2})(?:제목|유형|분야|핵심|전략|선진국|국내|출처)(?:\\*{0,2})\\s*[:：]|\\[자료\\s*\\d|$)`,
+      'i'
+    );
     const m = text.match(re);
-    if (m && m[1].trim()) return m[1].trim().replace(/\n+/g, ' ').slice(0, 1200);
+    if (m && m[1] && m[1].trim().length > 10) return m[1].trim();
   }
   return '';
 }
 
-function parseLinks(srcText) {
-  if (!srcText) return null;
-  const urlRe = /https?:\/\/[^\s\]）)】]+/g;
-  const urls = srcText.match(urlRe) || [];
-  const clean = srcText.replace(urlRe, '').replace(/\[\]/g,'').replace(/\s{2,}/g,' ').trim();
-  return { urls, clean };
-}
-
-function renderSources(srcText) {
-  if (!srcText) return '';
-  const { urls, clean } = parseLinks(srcText);
-  let html = `<div class="card-footer"><div class="source-wrap"><div class="source-label">출처</div>`;
-  if (clean) html += `<div class="source-text-plain">${clean}</div>`;
-  if (urls.length > 0) {
-    html += `<div class="source-links">`;
-    urls.forEach(url => {
-      const label = url.replace(/^https?:\/\//, '').split('/')[0];
-      html += `<a class="source-link" href="${url}" target="_blank" rel="noopener">${label}</a>`;
-    });
-    html += `</div>`;
-  }
-  html += `</div></div>`;
-  return html;
+// 자료 블록 분할
+function splitBlocks(text) {
+  // 마크다운 헤더(## 자료 1) 또는 [자료 1] 형식 모두 처리
+  const parts = text.split(/(?:^|\n)\s*(?:##?\s*)?(?:\[)?자료\s*\d+(?:\])?/i);
+  return parts.filter(p => p.trim().length > 50).slice(0, 2);
 }
 
 function renderCard(block, idx) {
-  const title  = field(block, '제목');
-  const type   = field(block, '유형');
-  const domain = field(block, '분야');
-  const summary = field(block, '핵심 내용','핵심내용');
-  const impl   = field(block, '전략적 시사점','시사점');
-  const rdG    = field(block, '선진국 최신 R&D 방향','선진국 R&D','선진국');
-  const rdK    = field(block, '국내 개발 기획 방향','국내 기획','국내 개발');
-  const src    = field(block, '출처');
-  const body   = (!summary && !impl) ? block.slice(0,800) : '';
+  const title  = extractSection(block, '제목');
+  const type   = extractSection(block, '유형');
+  const domain = extractSection(block, '분야');
+  const content = extractSection(block, '핵심 내용', '핵심내용');
+  const impl   = extractSection(block, '전략적 시사점', '전략적시사점', '시사점');
+  const rdG    = extractSection(block, '선진국 최신 R&D 방향', '선진국 R&D 방향', '선진국 R.D 방향', '선진국');
+  const rdK    = extractSection(block, '국내 개발 기획 방향', '국내 기획 방향', '국내개발기획방향', '국내 개발');
+  const src    = extractSection(block, '출처');
+
+  // 섹션이 하나도 추출 안 되면 전체 텍스트를 핵심내용으로
+  const fallback = (!content && !impl) ? block.trim().replace(/\n+/g,' ').slice(0,1000) : '';
+
+  // 출처에서 URL 추출
+  let srcHtml = '';
+  if (src) {
+    const urls = src.match(/https?:\/\/[^\s\]）)】,]+/g) || [];
+    const cleanSrc = src.replace(/https?:\/\/[^\s\]）)】,]+/g,'').replace(/\s{2,}/g,' ').trim();
+    srcHtml = `<div class="card-footer">
+      <div class="source-label">출처</div>
+      <div class="source-content">
+        ${cleanSrc ? `<span>${cleanSrc.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</span>` : ''}
+        ${urls.map(u=>`<br><a href="${u}" target="_blank" rel="noopener">${u.replace(/^https?:\/\//,'').split('/')[0]}</a>`).join('')}
+      </div>
+    </div>`;
+  }
 
   return `<div class="card">
     <div class="card-head">
       <span class="card-num">자료 ${idx+1}</span>
       <div class="tags">
-        ${type   ? `<span class="tag tag-type">${type}</span>` : ''}
-        ${domain ? `<span class="tag tag-domain">${domain}</span>` : ''}
+        ${type   ? `<span class="tag tag-type">${type.replace(/\*\*/g,'').trim()}</span>` : ''}
+        ${domain ? `<span class="tag tag-domain">${domain.replace(/\*\*/g,'').split('—')[0].trim().slice(0,20)}</span>` : ''}
       </div>
     </div>
-    ${title ? `<div class="card-title">${title}</div>` : ''}
+    ${title ? `<div class="card-title">${title.replace(/\*\*/g,'').trim()}</div>` : ''}
     <div class="card-body">
-      ${summary ? `<div class="section-block"><div class="section-label lbl-content">핵심 내용</div><div class="section-text">${summary}</div></div>` : ''}
-      ${impl    ? `<div class="section-block"><div class="section-label lbl-impl">전략적 시사점</div><div class="section-text">${impl}</div></div>` : ''}
-      ${rdG     ? `<div class="section-block"><div class="section-label lbl-rd">선진국 최신 R&amp;D 방향</div><div class="section-text">${rdG}</div></div>` : ''}
-      ${rdK     ? `<div class="section-block"><div class="section-label lbl-korea">국내 개발 기획 방향</div><div class="section-text">${rdK}</div></div>` : ''}
-      ${body    ? `<div class="section-text" style="margin-top:1rem">${body}</div>` : ''}
+      ${content  ? `<div class="section-block"><div class="section-label lbl-content">핵심 내용</div><div class="section-text">${mdToHtml(content)}</div></div>` : ''}
+      ${impl     ? `<div class="section-block"><div class="section-label lbl-impl">전략적 시사점</div><div class="section-text">${mdToHtml(impl)}</div></div>` : ''}
+      ${rdG      ? `<div class="section-block"><div class="section-label lbl-rd">선진국 최신 R&amp;D 방향</div><div class="section-text">${mdToHtml(rdG)}</div></div>` : ''}
+      ${rdK      ? `<div class="section-block"><div class="section-label lbl-korea">국내 개발 기획 방향</div><div class="section-text">${mdToHtml(rdK)}</div></div>` : ''}
+      ${fallback ? `<div class="section-block"><div class="section-label lbl-content">브리핑</div><div class="section-text">${mdToHtml(fallback)}</div></div>` : ''}
     </div>
-    ${renderSources(src)}
+    ${srcHtml}
   </div>`;
 }
 
 async function generate() {
   const btn = document.getElementById('genBtn');
   const output = document.getElementById('output');
-  const dateStr = today.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
   btn.disabled = true;
-  setStatus('웹 검색 및 브리핑 생성 중 (30~40초 소요)...', true);
+  setStatus('브리핑 생성 중 (15~20초 소요)...', true);
   output.innerHTML = '';
   try {
     const res = await fetch('/api/briefing', {
@@ -320,9 +256,9 @@ async function generate() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ topic: cur }),
     });
-    if (!res.ok) { const e = await res.json(); throw new Error(e.error || `HTTP ${res.status}`); }
+    if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error || `HTTP ${res.status}`); }
     const { text, date } = await res.json();
-    const blocks = text.split(/\[자료\s*\d+\]/).filter(p => p.trim().length > 40).slice(0,2);
+    const blocks = splitBlocks(text);
     if (!blocks.length) throw new Error('응답 파싱 실패. 다시 시도해주세요.');
     output.innerHTML = `<div class="cards">${blocks.map((b,i) => renderCard(b,i)).join('')}</div>`;
     setStatus(`브리핑 완료 — ${date} · ${new Date().toLocaleTimeString('ko-KR')}`);
