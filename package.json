@@ -1,0 +1,6 @@
+{
+  "name": "defense-briefing-agent",
+  "version": "1.0.0",
+  "description": "국방 인텔리전스 브리핑 에이전트",
+  "engines": { "node": "18.x" }
+}

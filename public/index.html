@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>국방 인텔리전스 브리핑</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0c0f;
+    --bg2: #111318;
+    --bg3: #181c22;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #e8eaed;
+    --text2: #8b9098;
+    --text3: #555b63;
+    --accent: #4a9eff;
+    --accent2: #1a4a7a;
+    --green: #3ddc84;
+    --amber: #ffb740;
+    --red: #ff6b6b;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans KR', sans-serif;
+  }
+
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: rgba(10,12,15,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .header-date { font-family: var(--mono); font-size: 11px; color: var(--text3); letter-spacing: 0.08em; }
+
+  /* ── MAIN ── */
+  main { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+  /* ── HERO ── */
+  .hero { margin-bottom: 2.5rem; }
+  .hero-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; color: var(--text3); margin-bottom: 10px; }
+  .hero-title { font-size: clamp(22px, 4vw, 32px); font-weight: 500; line-height: 1.2; color: var(--text); margin-bottom: 8px; }
+  .hero-sub { font-size: 14px; color: var(--text2); font-family: var(--mono); }
+
+  /* ── CONTROLS ── */
+  .controls-wrap {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .ctrl-label { font-family: var(--mono); font-size: 10px; color: var(--text3); letter-spacing: 0.12em; white-space: nowrap; }
+  .topic-grid { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; }
+  .t-btn {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    padding: 5px 11px;
+    border-radius: 5px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .t-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .t-btn.active { background: var(--accent2); border-color: var(--accent); color: var(--accent); }
+  .gen-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    padding: 10px 22px;
+    border-radius: 7px;
+    border: 1px solid var(--accent);
+    background: var(--accent2);
+    color: var(--accent);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .gen-btn:hover:not(:disabled) { background: var(--accent); color: #fff; }
+  .gen-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  /* ── STATUS ── */
+  .status {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 20px;
+  }
+  .spinner {
+    width: 10px; height: 10px;
+    border: 1.5px solid var(--border2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── CARDS ── */
+  .cards { display: flex; flex-direction: column; gap: 1.25rem; }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--border2); }
+
+  .card-head {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .card-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--text3);
+    padding-top: 2px;
+    white-space: nowrap;
+  }
+  .tags { display: flex; gap: 5px; flex-wrap: wrap; }
+  .tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    padding: 2px 7px;
+    border-radius: 4px;
+    border: 1px solid;
+  }
+  .tag-type { border-color: rgba(74,158,255,0.3); color: var(--accent); background: rgba(74,158,255,0.06); }
+  .tag-domain { border-color: rgba(61,220,132,0.3); color: var(--green); background: rgba(61,220,132,0.06); }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.45;
+    padding: 1rem 1.5rem 0;
+  }
+
+  .card-body { padding: 0.75rem 1.5rem 1.25rem; }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--text3);
+    margin-bottom: 6px;
+    margin-top: 14px;
+  }
+  .section-label:first-child { margin-top: 0; }
+  .section-text {
+    font-size: 13.5px;
+    color: var(--text2);
+    line-height: 1.8;
+  }
+
+  .card-footer {
+    border-top: 1px solid var(--border);
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .source-text { font-family: var(--mono); font-size: 10px; color: var(--text3); line-height: 1.5; flex: 1; }
+
+  .discuss-box {
+    margin: 0 1.5rem 1.25rem;
+    padding: 10px 14px;
+    background: var(--bg3);
+    border-left: 2px solid var(--amber);
+    border-radius: 0 6px 6px 0;
+  }
+  .discuss-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; color: var(--amber); margin-bottom: 5px; opacity: 0.7; }
+  .discuss-text { font-size: 12.5px; color: var(--text2); line-height: 1.7; }
+
+  /* ── EMPTY / ERROR ── */
+  .empty {
+    text-align: center;
+    padding: 4rem 1rem;
+    border: 1px dashed var(--border2);
+    border-radius: 10px;
+    color: var(--text3);
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 2;
+    letter-spacing: 0.06em;
+  }
+  .error-box {
+    padding: 1rem 1.25rem;
+    background: rgba(255,107,107,0.06);
+    border: 1px solid rgba(255,107,107,0.2);
+    border-radius: 8px;
+    color: var(--red);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  /* ── COST BADGE ── */
+  .cost-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0.75rem;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+  }
+  .cost-pill {
+    padding: 2px 8px;
+    background: rgba(61,220,132,0.08);
+    border: 1px solid rgba(61,220,132,0.2);
+    border-radius: 4px;
+    color: var(--green);
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 0 1rem; }
+    main { padding: 1.5rem 1rem 3rem; }
+    .controls-wrap { flex-direction: column; align-items: flex-start; }
+    .gen-btn { width: 100%; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    DEFENSE INTEL AGENT
+  </div>
+  <div class="header-date" id="headerDate"></div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="hero-label">국방 오피니언 리더 보좌 시스템</div>
+    <h1 class="hero-title">국방 인텔리전스<br>브리핑 에이전트</h1>
+    <div class="hero-sub">방위사업청 국방기술기획서 10대 분야 기반 · 매일 자동 생성</div>
+    <div class="cost-bar">
+      <span class="cost-pill">Vercel 호스팅 무료</span>
+      <span>Claude API 사용료: 생성 1회당 약 ₩30 · 월 30회 기준 약 ₩900</span>
+    </div>
+  </div>
+
+  <div class="controls-wrap">
+    <span class="ctrl-label">분야 선택</span>
+    <div class="topic-grid" id="topicGrid">
+      <button class="t-btn active" data-topic="auto">전체 자동</button>
+      <button class="t-btn" data-topic="drone">드론·무인</button>
+      <button class="t-btn" data-topic="korus">한미동맹</button>
+      <button class="t-btn" data-topic="nk">북한·한반도</button>
+      <button class="t-btn" data-topic="cyber">사이버·우주</button>
+      <button class="t-btn" data-topic="nuclear">핵·WMD</button>
+      <button class="t-btn" data-topic="kdef">방위산업</button>
+    </div>
+    <button class="gen-btn" id="genBtn" onclick="generate()">브리핑 생성 ↗</button>
+  </div>
+
+  <div class="status" id="status"></div>
+  <div id="output">
+    <div class="empty">
+      분야를 선택하고 브리핑 생성 버튼을 누르세요<br>
+      AI가 오늘의 국방·안보 인텔리전스 2건을 즉시 생성합니다
+    </div>
+  </div>
+</main>
+
+<script>
+const today = new Date();
+document.getElementById('headerDate').textContent = today.toLocaleDateString('ko-KR', {
+  year:'numeric', month:'long', day:'numeric', weekday:'short'
+});
+
+let currentTopic = 'auto';
+
+document.querySelectorAll('.t-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.t-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentTopic = btn.dataset.topic;
+  });
+});
+
+function setStatus(msg, loading = false) {
+  const el = document.getElementById('status');
+  el.innerHTML = loading
+    ? `<span class="spinner"></span><span style="color:#4a9eff">${msg}</span>`
+    : `<span>${msg}</span>`;
+}
+
+function parseBlocks(text) {
+  const parts = text.split(/\[자료\s*\d+\]/);
+  return parts.filter(p => p.trim().length > 40).slice(0, 2);
+}
+
+function field(text, ...keys) {
+  for (const key of keys) {
+    const re = new RegExp(`[-•]?\\s*${key}\\s*[:：]\\s*([\\s\\S]+?)(?=\\n\\s*[-•]?\\s*(?:제목|유형|분야|핵심|전략|출처|토론)|$)`, 'i');
+    const m = text.match(re);
+    if (m && m[1].trim()) return m[1].trim().replace(/\n/g, ' ').slice(0, 800);
+  }
+  return '';
+}
+
+function renderCard(block, idx) {
+  const title = field(block, '제목');
+  const type = field(block, '유형');
+  const domain = field(block, '분야');
+  const summary = field(block, '핵심 내용', '핵심내용');
+  const implication = field(block, '전략적 시사점', '시사점');
+  const source = field(block, '출처');
+  const discuss = field(block, '토론 주제', '토론주제', '토론');
+
+  return `
+  <div class="card">
+    <div class="card-head">
+      <span class="card-num">자료 ${idx + 1}</span>
+      <div class="tags">
+        ${type ? `<span class="tag tag-type">${type}</span>` : ''}
+        ${domain ? `<span class="tag tag-domain">${domain}</span>` : ''}
+      </div>
+    </div>
+    ${title ? `<div class="card-title">${title}</div>` : ''}
+    <div class="card-body">
+      ${summary ? `<div class="section-label">핵심 내용</div><div class="section-text">${summary}</div>` : ''}
+      ${implication ? `<div class="section-label">전략적 시사점</div><div class="section-text">${implication}</div>` : ''}
+    </div>
+    ${discuss ? `<div class="discuss-box"><div class="discuss-label">토론 주제</div><div class="discuss-text">${discuss}</div></div>` : ''}
+    ${source ? `<div class="card-footer"><div class="source-text">출처: ${source}</div></div>` : ''}
+  </div>`;
+}
+
+async function generate() {
+  const btn = document.getElementById('genBtn');
+  const output = document.getElementById('output');
+  btn.disabled = true;
+  setStatus('브리핑 생성 중...', true);
+  output.innerHTML = '';
+
+  try {
+    const res = await fetch('/api/briefing', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ topic: currentTopic }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || `HTTP ${res.status}`);
+    }
+
+    const { text, date } = await res.json();
+    const blocks = parseBlocks(text);
+
+    if (!blocks.length) throw new Error('응답 파싱 실패. 다시 시도해주세요.');
+
+    output.innerHTML = `<div class="cards">${blocks.map((b, i) => renderCard(b, i)).join('')}</div>`;
+    setStatus(`브리핑 완료 — ${date} · ${new Date().toLocaleTimeString('ko-KR')}`);
+  } catch (e) {
+    output.innerHTML = `<div class="error-box">오류: ${e.message}</div>`;
+    setStatus('오류 발생');
+  }
+  btn.disabled = false;
+}
+</script>
+</body>
+</html>
